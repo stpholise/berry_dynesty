@@ -8,14 +8,26 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --breakpoint-2xs: 18rem;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-inter: var(--font-inter);
+  --font-dm-sans: var(--font-dm-sans);
+  --color-gold: #d49a18;
+  --color-bright-green: #2e9b35;
+  --color-primary: #5bb5a2;
+  --color-green-light: #cef8d0;
+  --color-green-suplight: #f3faf3;
+  --color-dark-green: #004d2a;
+  --animate-show-menu: show-menu 500ms ease-out forwards;
+  --animate-remove-menu: remove-menu 500ms ease-in forwards;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    background-color: #f3faf3;
   }
 }
 
@@ -23,4 +35,26 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes show-menu {
+  from {
+    opacity: 0;
+    transfrom: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes remove-menu {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: trnaslateX(-100%);
+  }
 }
