@@ -12,18 +12,18 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   return (
     <div className="w-full bg-white">
-      <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center gap-12 lg:gap-24  bg-white ">
+      <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center  gap-12  xl:gap-24  bg-white ">
         <Link href={"home"} className="">
           <Image
             src={"/logo_flex.png"}
             width={220}
             height={100}
             alt="logo"
-            className=" h-20 w-44"
+            className=" lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
           />
         </Link>
         <div className={"lg:flex hidden items-center justify-between gap-24 "}>
-          <div className={"lg:flex   items-center justify-between gap-10 "}>
+          <div className={"lg:flex   items-center justify-between gap-8 "}>
             {pages.map((page, i) => (
               <Link
                 key={i}
