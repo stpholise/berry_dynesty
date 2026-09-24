@@ -37,20 +37,22 @@ const page = () => {
     <div className="bg-white relative">
       <div className=" relative  w-full h-[calc(100vh-50px)] bg-[url(/bg/cow.jpg)] bg-center bg-cover ">
         <div className="absolute z-10 inset-0 bg-linear-to-r from-black to-transparent" />
-        <div className=" absolute z-20 inset-0 max-w-6xl my-auto py-20 mx-auto w-full px-4 sm:px-8">
-          <p className="text-xs px-2 py-1 rounded-3xl bg-dark-green w-fit flex gap-1 items-center mb-2">
-            <Badge strokeWidth={3} className="size-3 text-white font-bold " />{" "}
-            Hand-Sourced & Vet Inspected Animals
-          </p>
-          <h1 className=" text-dark-green text-4xl md:text-6xl pb-4 font-dm-sans w-full md:w-180 text-whte font-semibold ">
-            <span className=" flex text-gold text-5xl  md:text-6xl">
-              Healthy Farm Animals Directly Sourced For You
-            </span>{" "}
-          </h1>
-          <p className=" w-full text-lg md:text-xl md:w-140 ">
-            Discover healthy, well-raised farm animals bred and cared for with
-            quality, sustainability, and responsible farming at heart.
-          </p>
+        <div className=" flex justify-center flex-col gap-12 absolute z-20 inset-0 max-w-6xl my-auto py-20 mx-auto w-full px-4 sm:px-8">
+          <div className=" flex flex-col gap-4">
+            <p className="text-xs px-2 py-1 rounded-3xl bg-dark-green w-fit flex gap-1 items-center mb-2">
+              <Badge strokeWidth={3} className="size-3 text-white font-bold " />{" "}
+              Hand-Sourced & Vet Inspected Animals
+            </p>
+            <h1 className=" text-dark-green text-4xl md:text-6xl pb-4 font-dm-sans w-full md:w-180 text-whte font-semibold ">
+              <span className=" flex text-gold text-5xl  md:text-6xl">
+                Healthy Farm Animals Directly Sourced For You
+              </span>{" "}
+            </h1>
+            <p className=" w-full text-lg md:text-xl md:w-140 ">
+              Discover healthy, well-raised farm animals bred and cared for with
+              quality, sustainability, and responsible farming at heart.
+            </p>
+          </div>
           <div className=" mt-8 flex gap-4 items-center ">
             <PryButton text={"Explore Our Animals"} />
             <button className="flex cursor-pointer items-center gap-2 font-medium">
@@ -142,8 +144,16 @@ const page = () => {
           </div>
           <div className="grid grid-cols-4   justify-between gap-16">
             {livestockCategories.map((items, i) => (
-              <div className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center" key={i}>
-                <div className={clsx(" rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-ou ", items.bg)}>
+              <div
+                className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center"
+                key={i}
+              >
+                <div
+                  className={clsx(
+                    " rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-ou ",
+                    items.bg,
+                  )}
+                >
                   <Image
                     src={items.icon}
                     width={40}
@@ -152,7 +162,9 @@ const page = () => {
                     className="size-10"
                   />
                 </div>
-                <h6 className="text-black text-base font-semibold">{items.name}</h6>
+                <h6 className="text-black text-base font-semibold">
+                  {items.name}
+                </h6>
                 <p className="text-sm text-gray-600">{items.subtitle}</p>
               </div>
             ))}
@@ -160,18 +172,44 @@ const page = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto py-30">
-        <div className=""></div>
+      <div className="max-w-6xl mx-auto py-30 px-4">
+        <div className="">
+          <h6 className="text-sm font-semibold text-gold uppercase">
+            Hand-picked Listing
+          </h6>
+          <h3 className="text-3xl font-semibold text-dark-green mb-6 mt-2">
+            Featured Sourced Animals
+          </h3>
+        </div>
         <div className="grid grid-cols-3 gap-8">
-          {
-            livestockProducts.map((product, i ) => (
-              <LivestockCard product={product}  key={i} />
-            ))
-          }
+          {livestockProducts.map((product, i) => (
+            <LivestockCard product={product} key={i} />
+          ))}
         </div>
       </div>
-{/* 
-      <div className="py-20 bg-green-suplight">
+
+      <div className="py-20 bg-dark-green px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex flex-col w-150  gap-4 max-w-3xl text-white">
+            <h6 className="text-sm font-semibold text-gold uppercase">
+              Can&apos;t find a specific breend or quantity?
+            </h6>
+            <h3 className="text-4xl font-semibold text-white capitalize">
+              We Sourced Custom Orders For Commerciaal & Private Farms
+            </h3>
+            <p className="text-base mt-3">
+              Tell us your exact required specifications (breed, weight, age,
+              quantity, health certificates) and our sourcing team will find and
+              vet them for you.
+            </p>
+          </div>
+          <button className="bg-bright-green h-fit w-fit px-4 py-2  rounded-md">
+            Submit Custom Request
+          </button>
+        </div>
+      </div>
+
+      {/*    <div className="py-20 bg-green-suplight">
         <div className="max-w-6xl mx-auto flex-col flex gap-16">
           <div className=" text-center text-black px-4">
             <h3 className="text-5xl font-medium mb-4">Our Farm Animals</h3>
@@ -232,7 +270,7 @@ const page = () => {
         </div>
       </div> */}
 
-      <div className="py-20 px-8 max-w-6xl mx-auto text-black flex-col flex gap-16">
+      {/* <div className="py-20 px-8 max-w-6xl mx-auto text-black flex-col flex gap-16">
         <div className=" text-center">
           <h3 className="text-5xl font-medium mb-4">
             why choose <span className="  ">Berry Dynasty</span>
@@ -263,7 +301,7 @@ const page = () => {
             );
           })}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -436,25 +474,23 @@ const livestockCategories = [
     icon: "/icons/pig.svg",
     name: "Swine / Pigs",
     subtitle: "Duroc, Yorkshire, Landrace",
-    bg:"bg-pink-200/60 group-hover:bg-pink-300/80"
+    bg: "bg-pink-200/60 group-hover:bg-pink-300/80",
   },
   {
     id: 4,
     icon: "/icons/egg.svg",
     name: "Poultry",
     subtitle: "Layers, Broilers, Turkeys",
-    bg:"bg-orange-600/60 group-hover:bg-orange-600/80"
+    bg: "bg-orange-600/60 group-hover:bg-orange-600/80",
   },
 ];
-
 
 export const livestockProducts: LivestockProduct[] = [
   {
     id: 1,
     name: "Fullblood Boer Goat Buck",
     category: "Goats",
-    image:
-      "/animals/goat.jpg",
+    image: "/animals/goat.jpg",
     location: "Red River Valley, OK",
     weight: "185 lbs",
     age: "14 Months",
@@ -508,4 +544,3 @@ export const livestockProducts: LivestockProduct[] = [
 ];
 
 export default page;
-

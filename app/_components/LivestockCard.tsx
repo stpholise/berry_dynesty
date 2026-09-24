@@ -11,12 +11,12 @@ interface LivestockCardProps {
 const LivestockCard = ({ product }: LivestockCardProps) => {
   return (
     <article className="overflow-hidden rounded-2xl bg-white shadow-sm p-2">
-      <div className="relative h-50 w-full rounded-2xl ">
+      <div className="relative h-40 w-full rounded-2xl ">
         <Image
           src={product.image}
           alt={product.name}
           fill
-          className="object-cover h-50 rounded-t-xl"
+          className="object-cover h-40 rounded-t-xl"
         />
       </div>
 

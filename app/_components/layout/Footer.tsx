@@ -14,8 +14,8 @@ const Footer = () => {
   return (
     <div className="pb-12 ">
       <div className=" max-w-6xl mx-auto px-10  ">
-        <div className=" flex flex-col xl:flex-row  justify-between w-full px-1 gap-25 xl:gap-50 py-20  border-b-2 border-b-gray-500">
-          <div className="text-lg xl:w-120 font-medium font-dm-sans  ">
+        <div className=" flex flex-col lg:flex-row  justify-between w-full px-1 gap-25 lg:gap-50 py-20  border-b-2 border-b-gray-500">
+          <div className="text-lg lg:w-120 font-medium font-dm-sans  ">
             <Image
               src={"/logo_flex.png"}
               width={220}
@@ -27,7 +27,7 @@ const Footer = () => {
               Dedicated to sustainable farming and animal welfare since 2000.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row justify-start flex-wrap  xs:justify-between  xl:justify-end gap-12  w-full  ">
+          <div className="flex flex-col sm:flex-row justify-start flex-wrap  xs:justify-between  lg:justify-end gap-12 lg:gap-28   w-full  ">
             {navColumns.map((col, i) => (
               <div
                 key={i}
