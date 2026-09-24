@@ -2,29 +2,67 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu } from "lucide-react";
+import { X, Menu, UserCircle, Heart } from "lucide-react";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import { HeartIcon, ShoppingCart } from "@animateicons/react/lucide";
 
 const Header = () => {
+  const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   return (
     <div className="w-full bg-white">
-      <div className="max-w-7xl px-8 py-4 text-black flex justify-between items-center gap-12 lg:gap-24  bg-white ">
-        <button className="">
+      <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center gap-12 lg:gap-24  bg-white ">
+        <Link href={"home"} className="">
           <Image
             src={"/logo_flex.png"}
-            width={120}
-            height={50}
+            width={220}
+            height={100}
             alt="logo"
-            className=" h-10 w-20"
+            className=" h-20 w-44"
           />
-        </button>
-        <div className={"lg:flex hidden justify-between gap-14 "}>
-          {pages.map((page, i) => (
-            <Link key={i} href={page.url} className="cursor-pointer capitalize">
-              {page.title}
+        </Link>
+        <div className={"lg:flex hidden items-center justify-between gap-24 "}>
+          <div className={"lg:flex   items-center justify-between gap-10 "}>
+            {pages.map((page, i) => (
+              <Link
+                key={i}
+                href={page.url}
+                className={clsx(
+                  "cursor-pointer font-semibold capitalize whitespace-nowrap hover:text-bright-green ",
+                  pathname === page.url ||
+                    (page.url !== "/" && pathname.startsWith(page.url))
+                    ? "text-dark-green border-b-2 border-b-dark-green "
+                    : " text-gray-600",
+                )}
+              >
+                {page.title}
+              </Link>
+            ))}
+          </div>
+
+          <div className=" w-full flex items-center justify-end gap-8 ">
+            <Link
+              href={"/login"}
+              className="text-bright-green flex items-center text-lg cursor-pointer"
+            >
+              < HeartIcon   />
             </Link>
-          ))}
+            <Link
+              href={"/login"}
+              className="text-bright-green flex items-center text-lg cursor-pointer"
+            >
+              <ShoppingCart   />
+            </Link>
+
+            <Link
+              href={"/register"}
+              className="bg-bright-green rounded-md font-medium text-base text-white py-3 px-4 cursor-pointer whitespace-nowrap flex gap-1 items-center"
+            >
+              <UserCircle className="size-4" />
+              Login/Account
+            </Link>
+          </div>
         </div>
         <button
           className="lg:hidden md:pr-4 "
@@ -66,6 +104,18 @@ const Header = () => {
                   {page.title}
                 </Link>
               ))}
+              <div className="flex flex-col justify-start items-start mt-10 gap-3 pt-4">
+                <Link href={"/login"} className="text-lg">
+                  Login
+                </Link>
+
+                <Link
+                  href={"/register"}
+                  className="bg-primary-light text-primary rounded-md font-medium  py-3 px-4"
+                >
+                  Sign up
+                </Link>
+              </div>
             </div>{" "}
           </div>
         </div>
@@ -80,7 +130,15 @@ const pages = [
     url: "/",
   },
   {
-    title: "about",
+    title: "Shop Livestock",
+    url: "/shop",
+  },
+  {
+    title: "How We Source",
+    url: "/how",
+  },
+  {
+    title: "About Us",
     url: "/about",
   },
   {
