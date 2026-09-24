@@ -18,10 +18,10 @@ const Footer = () => {
           <div className="text-lg xl:w-120 font-medium font-dm-sans  ">
             <Image
               src={"/logo_flex.png"}
-              width={120}
+              width={220}
               height={100}
               alt={"logo"}
-              className="w-36 h-18"
+              className="w-40 h-20 "
             />
             <p className=" py-4 text-base">
               Dedicated to sustainable farming and animal welfare since 2000.
@@ -54,7 +54,7 @@ const Footer = () => {
                   <Link
                     key={i}
                     href={item.url}
-                    className="text-gray-400 flex gap-3"
+                    className="text-gray-400 flex items-center gap-3"
                   >
                     <Icon
                       duration={0.8}
@@ -134,7 +134,7 @@ const contactUs = [
   {
     title: "location",
     text: "office and farm address",
-    url: "",
+    url: "geo:37.7749,-122.4194",
     icon: MapPin,
   },
 ];
