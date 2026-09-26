@@ -133,10 +133,7 @@ const pages = [
     title: "Shop Livestock",
     url: "/shop",
   },
-  {
-    title: "How We Source",
-    url: "/how",
-  },
+
   {
     title: "About Us",
     url: "/about",
