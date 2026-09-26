@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { LivestockProduct } from "../home/page";
+import type { LivestockProduct } from "../(public)/home/page";
 import { MapPin } from "@animateicons/react/lucide";
+import { ShoppingBag } from "lucide-react";
 
 interface LivestockCardProps {
   product: LivestockProduct;
@@ -21,9 +22,9 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
       </div>
 
       <div className="p-4">
-        <p className="mt-2 text-xs text-bright-green flex items-center gap-1 font-medium">
+        <div className="mt-2 text-xs text-bright-green flex items-center gap-1 font-medium">
           <MapPin size={10} className="" /> Sourced from {product.location}
-        </p>
+        </div>
         <h3 className="mt-1 text-2xl font-semibold text-dark-green">
           {product.name}
         </h3>
@@ -43,18 +44,23 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
         </div>
 
         <div className="mt-5 flex items-end justify-between gap-4">
-          <div>
+          <div className="flex gap-8">
             <p className="text-xl font-bold text-dark-green">
               {product.currency} {product.price.toLocaleString()}
             </p>
           </div>
-
-          <Link
-            href={`/livestock/${product.id}`}
-            className="rounded-lg bg-dark-green px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
-          >
-            View Details
-          </Link>
+          <div className="flex gap-5 items-center">
+            <button className=" size-5 text-dark-green">
+              {" "}
+              <ShoppingBag />{" "}
+            </button>
+            <Link
+              href={`/livestock/${product.id}`}
+              className="rounded-lg bg-dark-green px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+            >
+              View Details
+            </Link>
+          </div>
         </div>
       </div>
     </article>

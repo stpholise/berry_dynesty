@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Leaf, Heart, Sprout, Users, Badge } from "lucide-react";
-import PryButton from "../_components/buttons/PryButton";
+import PryButton from "../../_components/buttons/PryButton";
 import { ArrowRight, Play } from "@animateicons/react/lucide";
 import {
   Heart as HeartPulse,
@@ -11,7 +11,7 @@ import {
   Cat,
 } from "@animateicons/react/lucide";
 import clsx from "clsx";
-import LivestockCard from "../_components/LivestockCard";
+import LivestockCard from "../../_components/LivestockCard";
 
 type SourcingStep = {
   id: number;
