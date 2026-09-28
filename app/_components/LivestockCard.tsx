@@ -22,22 +22,22 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
       </div>
 
       <div className="p-4">
-        <div className="mt-2 text-xs text-bright-green flex items-center gap-1 font-medium">
+        <div className="mt-2 text-[10px] lg:text-xs text-bright-green flex items-center gap-1 font-medium">
           <MapPin size={10} className="" /> Sourced from {product.location}
         </div>
-        <h3 className="mt-1 text-2xl font-semibold text-dark-green">
+        <h3 className="mt-1 text-lg lg:text-2xl font-semibold text-dark-green">
           {product.name}
         </h3>
 
         <div className="  grid grid-cols-2 gap-4   pt-2">
           <div>
-            <p className="font-semibold text-sm text-gray-500">
+            <p className="font-semibold text-xs lg:text-sm text-gray-500">
               Waight : {product.weight}
             </p>
           </div>
 
           <div>
-            <p className="font-semibold text-sm text-gray-500">
+            <p className="font-semibold text-xs lg:text-sm text-gray-500">
               Age : {product.age}
             </p>
           </div>
@@ -45,7 +45,7 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
 
         <div className="mt-5 flex items-end justify-between gap-4">
           <div className="flex gap-8">
-            <p className="text-xl font-bold text-dark-green">
+            <p className=" text-lg lg:text-xl font-bold text-dark-green">
               {product.currency} {product.price.toLocaleString()}
             </p>
           </div>
@@ -56,7 +56,7 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
             </button>
             <Link
               href={`/livestock/${product.id}`}
-              className="rounded-lg bg-dark-green px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+              className="rounded-lg whitespace-nowrap bg-dark-green px-3 py-2 text-sm font-semibold text-white transition hover:opacity-90"
             >
               View Details
             </Link>

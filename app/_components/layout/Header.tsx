@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu, UserCircle, Heart } from "lucide-react";
+import { X, Menu, UserCircle,  } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { HeartIcon, ShoppingCart } from "@animateicons/react/lucide";
