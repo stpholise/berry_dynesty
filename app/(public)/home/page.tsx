@@ -37,14 +37,14 @@ const page = () => {
     <div className="bg-white relative">
       <div className=" relative  w-full h-[calc(100vh-50px)] bg-[url(/bg/cow.jpg)] bg-center bg-cover ">
         <div className="absolute z-10 inset-0 bg-linear-to-r from-black to-transparent" />
-        <div className=" flex justify-center flex-col gap-12 absolute z-20 inset-0 max-w-6xl my-auto py-20 mx-auto w-full px-4 sm:px-8">
+        <div className=" flex justify-center flex-col gap-8 sm:gap-12 absolute z-20 inset-0 max-w-6xl my-auto py-20 mx-auto w-full px-4 sm:px-8">
           <div className=" flex flex-col gap-4">
             <p className="text-xs px-2 py-1 rounded-3xl bg-dark-green w-fit flex gap-1 items-center mb-2">
               <Badge strokeWidth={3} className="size-3 text-white font-bold " />{" "}
               Hand-Sourced & Vet Inspected Animals
             </p>
-            <h1 className=" text-dark-green text-4xl md:text-6xl pb-4 font-dm-sans w-full md:w-180 text-whte font-semibold ">
-              <span className=" flex text-gold text-5xl  md:text-6xl">
+            <h1 className=" text-dark-green text-2xl 2xs:text-3xl sm:text-4xl md:text-6xl pb-4 font-dm-sans w-full md:w-180 text-whte font-semibold ">
+              <span className=" flex text-gold  text-2xl 2xs:text-3xl sm:text-4xl  md:text-6xl">
                 Healthy Farm Animals Directly Sourced For You
               </span>{" "}
             </h1>
@@ -53,7 +53,7 @@ const page = () => {
               quality, sustainability, and responsible farming at heart.
             </p>
           </div>
-          <div className=" mt-8 flex gap-4 items-center ">
+          <div className=" mt-3 sm:mt-8 flex 2xs:flex-row flex-col gap-6 sm:gap-4 sm:items-center ">
             <PryButton text={"Explore Our Animals"} />
             <button className="flex cursor-pointer items-center gap-2 font-medium">
               <Play
@@ -107,17 +107,17 @@ const page = () => {
             protocol.
           </p>
         </div>
-        <div className="steps-grid  grid grid-cols-4 gap-4  text-gray-600">
+        <div className="steps-grid grid-cols-1  2xs:grid-cols-2  grid md:grid-cols-4 gap-4  text-gray-600">
           {sourcingSteps.map((step) => (
             <div
               key={step.id}
-              className=" bg-gray-100 p-6 flex flex-col gap-4 rounded-2xl "
+              className=" bg-gray-100 p-4 sm:p-6 flex flex-col gap-4 rounded-2xl "
             >
-              <div className=" size-12 text-dark-green text-3xl bg-green-light rounded-md p-2 flex items-center justify-center ">
+              <div className="size-10 sm:size-12 text-dark-green text-xl sm:text-3xl bg-green-light rounded-md p-2 flex items-center justify-center ">
                 {step.id}
               </div>
 
-              <h3 className="text-dark-green font-semibold text-xl">
+              <h3 className="text-dark-green font-semibold text-lg sm:text-xl">
                 {step.title}
               </h3>
               <p className="text-sm">{step.description}</p>
@@ -128,12 +128,12 @@ const page = () => {
 
       <div className="py-20 w-full bg-gray-100">
         <div className="max-w-7xl mx-auto px-4 flex flex-col gap-16">
-          <div className=" flex flex-row justify-between gap-4 ">
+          <div className=" flex flex-col gap-8 sm:flex-row justify-between sm:gap-4 ">
             <div className="flex flex-col gap-3 ">
               <h6 className="uppercase text-sm font-semibold text-gold">
                 Categories
               </h6>
-              <h3 className="text-4xl font-semibold text-dark-green">
+              <h3 className=" text-3xl sm:text-4xl font-semibold text-dark-green">
                 Browse Livestock By Species
               </h3>
             </div>
@@ -142,7 +142,7 @@ const page = () => {
               <ArrowRight size={16} className="size-3" />{" "}
             </button>
           </div>
-          <div className="grid grid-cols-4   justify-between gap-16">
+          <div className="grid grid-cols-1 2xs:grid-cols-2  md:grid-cols-4 justify-center  sm:justify-between gap-4 sm:gap-16">
             {livestockCategories.map((items, i) => (
               <div
                 className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center"
@@ -150,7 +150,7 @@ const page = () => {
               >
                 <div
                   className={clsx(
-                    " rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-ou ",
+                    " rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-out ",
                     items.bg,
                   )}
                 >
@@ -177,11 +177,11 @@ const page = () => {
           <h6 className="text-sm font-semibold text-gold uppercase">
             Hand-picked Listing
           </h6>
-          <h3 className="text-3xl font-semibold text-dark-green mb-6 mt-2">
+          <h3 className="text-3xl font-semibold text-dark-green mb-8 mt-2">
             Featured Sourced Animals
           </h3>
         </div>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid 2xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {livestockProducts.map((product, i) => (
             <LivestockCard product={product} key={i} />
           ))}
@@ -189,8 +189,8 @@ const page = () => {
       </div>
 
       <div className="py-20 bg-dark-green px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex flex-col w-150  gap-4 max-w-3xl text-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12  items-center justify-between">
+          <div className="flex flex-col md:w-150  gap-4 max-w-3xl text-white">
             <h6 className="text-sm font-semibold text-gold uppercase">
               Can&apos;t find a specific breend or quantity?
             </h6>
