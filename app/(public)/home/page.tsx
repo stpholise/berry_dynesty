@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Leaf, Heart, Sprout, Users, Badge } from "lucide-react";
 import PryButton from "../../_components/buttons/PryButton";
 import { ArrowRight, Play } from "@animateicons/react/lucide";
@@ -12,6 +13,8 @@ import {
 } from "@animateicons/react/lucide";
 import clsx from "clsx";
 import LivestockCard from "../../_components/LivestockCard";
+
+
 
 type SourcingStep = {
   id: number;
@@ -144,7 +147,7 @@ const page = () => {
           </div>
           <div className="grid grid-cols-1 2xs:grid-cols-2  md:grid-cols-4 justify-center  sm:justify-between gap-4 sm:gap-16">
             {livestockCategories.map((items, i) => (
-              <div
+              <Link href={`/livestock/${items.name}`}
                 className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center"
                 key={i}
               >
@@ -163,10 +166,10 @@ const page = () => {
                   />
                 </div>
                 <h6 className="text-black text-base font-semibold">
-                  {items.name}
+                  {items.label}
                 </h6>
                 <p className="text-sm text-gray-600">{items.subtitle}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -458,30 +461,34 @@ const livestockCategories = [
   {
     id: 1,
     icon: "/icons/cow.svg",
-    name: "Cattle",
+    name: "cattle",
     subtitle: "Bulls, Heifers, Dairy",
     bg: "bg-green-100/60 group-hover:bg-green-200/60",
+    label: "Cattle"
   },
   {
     id: 2,
     icon: "/icons/ram.svg",
-    name: "Goats & Sheep",
+    name: "goat",
     subtitle: "Boer, Dorper, Kiko",
     bg: "bg-amber-200/60 group-hover:bg-amber-300/70",
+    label: "Goats & Sheep"
   },
   {
     id: 3,
     icon: "/icons/pig.svg",
-    name: "Swine / Pigs",
+    name: "pig",
     subtitle: "Duroc, Yorkshire, Landrace",
     bg: "bg-pink-200/60 group-hover:bg-pink-300/80",
+    label: "Swine / Pigs"
   },
   {
     id: 4,
     icon: "/icons/egg.svg",
-    name: "Poultry",
+    name: "poultry",
     subtitle: "Layers, Broilers, Turkeys",
     bg: "bg-orange-600/60 group-hover:bg-orange-600/80",
+    label: 'Poultry'
   },
 ];
 
