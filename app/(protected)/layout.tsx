@@ -2,9 +2,10 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const authLayout = ({ children }: { children: React.ReactNode }) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
+      {" "}
       <div className="w-full bg-white ">
         <div className=" max-w-7xl mx-auto">
           <Link href={"/home"} className="">
@@ -23,4 +24,4 @@ const authLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default authLayout;
+export default layout;

@@ -3,7 +3,7 @@ export type ProductCategory =
   | "Goat"
   | "Sheep"
   | "Pig"
-  | "Chicken"
+  | "Poultry"
   | "Turkey"
   | "Duck"
   | "Snail";

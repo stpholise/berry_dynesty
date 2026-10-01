@@ -3,10 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "@animateicons/react/lucide";
-import { ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag } from "lucide-react";
 import type { Product } from "@/types/product";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cartSlice";
+import { toggleWishlist } from "@/store/slices/wishlistSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import clsx from "clsx";
 
 interface LivestockCardProps {
   product: Product;
@@ -17,6 +21,14 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity: 1 }));
   };
+
+  const handleToggleWishlist = () => {
+    dispatch(toggleWishlist(product));
+  };
+
+  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
+
+  const toggleState = wishlistItems.some((i) => i.id === product.id);
 
   return (
     <div className="overflow-hidden rounded-2xl bg-white p-2 shadow-sm duration-300 transition-shadow hover:shadow-2xl">
@@ -56,15 +68,28 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
       {/* Card Action Footer (Kept outside <Link> to fix hydration errors) */}
       <div className="flex items-end justify-between gap-4 p-4 pt-0">
         <p className="text-lg font-bold text-dark-green">
-          {product.currency} {product.price.toLocaleString()}
+          $ {product.price.toLocaleString()}
         </p>
 
-        <button
-          onClick={handleAddToCart}
-          className="flex cursor-pointer items-center gap-2 rounded-md bg-gray-200 p-2 text-sm font-semibold text-dark-green transition hover:bg-gray-300"
-        >
-          <ShoppingBag className="size-4" /> Add
-        </button>
+        <div className="flex items-center gap-5">
+          <button
+            onClick={handleToggleWishlist}
+            className="flex cursor-pointer items-center gap-2 rounded-md     text-sm font-semibold text-dark-green transition hover:bg-gray-300"
+          >
+            <Heart
+              className={clsx(
+                "size-5 ",
+                toggleState ? "text-red-400" : "text-dark-green",
+              )}
+            />
+          </button>
+          <button
+            onClick={handleAddToCart}
+            className="flex cursor-pointer items-center gap-2 rounded-md bg-bright-green py-2 px-3 text-sm font-semibold text-white transition hover:bg-gray-300"
+          >
+            <ShoppingBag className="size-4" /> Add
+          </button>
+        </div>
       </div>
     </div>
   );

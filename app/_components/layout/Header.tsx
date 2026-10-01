@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu, UserCircle,  } from "lucide-react";
+import { X, Menu, UserCircle } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { HeartIcon, ShoppingCart } from "@animateicons/react/lucide";
@@ -12,12 +12,14 @@ import type { RootState } from "@/store";
 const Header = () => {
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const cartQuantity = useSelector((state: RootState)=> state.cart.totalQuantity)
+  const cartQuantity = useSelector(
+    (state: RootState) => state.cart.totalQuantity,
+  );
 
   return (
     <div className="w-full bg-white">
       <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center  gap-12  xl:gap-24  bg-white ">
-        <Link href={"home"} className="">
+        <Link href={"/home"} className="">
           <Image
             src={"/logo_flex.png"}
             width={220}
@@ -47,17 +49,19 @@ const Header = () => {
 
           <div className=" w-full flex items-center justify-end gap-8 ">
             <Link
-              href={"/login"}
+              href={"/dashboard/favorite"}
               className="text-bright-green flex items-center text-lg cursor-pointer"
             >
-              < HeartIcon   />
+              <HeartIcon />
             </Link>
             <Link
-              href={"/login"}
+              href={"/dashboard/cart"}
               className="relative text-bright-green flex items-center text-lg cursor-pointer"
             >
-              <ShoppingCart   />
-              <span className="text-[10px] text-black absolute -top-2 -right-1">{cartQuantity}</span>
+              <ShoppingCart />
+              <span className="text-[10px] text-black absolute -top-2 -right-1">
+                {cartQuantity}
+              </span>
             </Link>
 
             <Link
