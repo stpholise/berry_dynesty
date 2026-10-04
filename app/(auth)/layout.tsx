@@ -7,7 +7,7 @@ const authLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <div className="w-full bg-white ">
         <div className=" max-w-7xl mx-auto">
-          <Link href={"/home"} className="">
+          <Link href={"/home"} className="w-fit inline-block ">
             <Image
               src={"/logo_flex.png"}
               width={220}

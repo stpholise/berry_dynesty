@@ -1,14 +1,17 @@
+"use client ";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+// import { redirect } from "next/navigation";
+// import { decrypt } from "@/lib/session";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {" "}
       <div className="w-full bg-white ">
         <div className=" max-w-7xl mx-auto">
-          <Link href={"/home"} className="">
+          <Link href={"/home"} className="inline-block w-fit">
             <Image
               src={"/logo_flex.png"}
               width={220}
@@ -24,4 +27,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default DashboardLayout;

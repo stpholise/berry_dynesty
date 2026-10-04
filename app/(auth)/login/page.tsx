@@ -1,7 +1,21 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
+import { SignIn } from "@clerk/nextjs";
 
-const page = () => {
+const Page = () => {
+  const [error, setError] = useState<string>();
+
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const res = await fetch("/api/login", {
+      method: "POST",
+      body: new FormData(e.currentTarget),
+    });
+    if (!res.ok) return;
+  };
+
   return (
     <div className="w-full min-h-screen bg-white px-6">
       <div className="max-w-7xl mx-auto min-h-screen p-8 flex flex-col md:flex-row  gap-12">
@@ -91,4 +105,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

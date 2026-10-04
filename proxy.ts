@@ -1,11 +1,22 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export function proxy(request: NextRequest) {
-    return NextResponse.rewrite(new URL('/home', request.url))
-}
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
+export default clerkMiddleware((auth, request: NextRequest) => {
+  const { pathname } = request.nextUrl;
 
+  if (pathname === "/") {
+    return NextResponse.rewrite(new URL("/home", request.url));
+  }
+  return NextResponse.next();
+});
 export const config = {
-    matcher: '/'
-}
+  matcher: [
+    "/",
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    "/__clerk/:path*",
+    "/(api|trpc)(.*)",
+  ],
+};
+ 
