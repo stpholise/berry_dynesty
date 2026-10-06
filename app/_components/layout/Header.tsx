@@ -2,14 +2,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu, UserCircle } from "lucide-react";
+import { X, Menu, UserCircle,  } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { HeartIcon, ShoppingCart } from "@animateicons/react/lucide";
+import { HeartIcon, ShoppingCart,User } from "@animateicons/react/lucide";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import { useUser } from "@clerk/nextjs";
 
 const Header = () => {
+  const { isSignedIn,   isLoaded } = useUser();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const cartQuantity = useSelector(
@@ -24,8 +26,10 @@ const Header = () => {
             src={"/logo_flex.png"}
             width={220}
             height={100}
-            alt="logo"
-            className=" lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
+            alt="company logo"
+            loading="eager"
+            priority
+            className="w-auto h-auto lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
           />
         </Link>
         <div className={"lg:flex hidden items-center justify-between gap-24 "}>
@@ -63,14 +67,20 @@ const Header = () => {
                 {cartQuantity}
               </span>
             </Link>
-
-            <Link
-              href={"/register"}
-              className="bg-bright-green rounded-md font-medium text-base text-white py-3 px-4 cursor-pointer whitespace-nowrap flex gap-1 items-center"
-            >
-              <UserCircle className="size-4" />
-              Login/Account
-            </Link>
+            {isSignedIn ? (
+              <button className="cursor-pointer flex rounded-full p-2 bg-gold">
+                <User className="text-dark-green" />
+                
+              </button>
+            ) : (
+              <Link
+                href={"/register"}
+                className="bg-bright-green rounded-md font-medium text-base text-white py-3 px-4 cursor-pointer whitespace-nowrap flex gap-1 items-center"
+              >
+                <UserCircle className="size-4" />
+                Login/Account
+              </Link>
+            )}
           </div>
         </div>
         <button

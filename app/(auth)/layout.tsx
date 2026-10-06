@@ -13,7 +13,7 @@ const authLayout = ({ children }: { children: React.ReactNode }) => {
               width={220}
               height={100}
               alt="logo"
-              className=" lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
+              className="  lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
             />
           </Link>
         </div>
