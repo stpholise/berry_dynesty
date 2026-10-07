@@ -1,11 +1,19 @@
-"use client ";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-// import { redirect } from "next/navigation";
-// import { decrypt } from "@/lib/session";
+import { auth } from "@clerk/nextjs/server";  
+import { redirect } from "next/navigation";
+ 
 
-const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+
+const ProtectedLayout = async ({ children }: { children: React.ReactNode }) => {
+
+  const { userId } = await auth();
+  if(!userId) {
+    redirect("/signin")
+  }
+
   return (
     <>
       {" "}
@@ -27,4 +35,4 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default DashboardLayout;
+export default ProtectedLayout;

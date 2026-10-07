@@ -2,24 +2,48 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu, UserCircle,  } from "lucide-react";
+import { X, Menu, UserCircle, Settings, LogOut } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { HeartIcon, ShoppingCart,User } from "@animateicons/react/lucide";
+import { HeartIcon, ShoppingCart, User } from "@animateicons/react/lucide";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
-  const { isSignedIn,   isLoaded } = useUser();
+  const router = useRouter();
+  const manageAccount = [
+    {
+      title: "Settings",
+      icon: Settings,
+      onClick: () => {
+        router.push("/profile");
+        setOpenPopup(false);
+      },
+    },
+    {
+      title: "Sign out",
+      icon: LogOut,
+      className: "text-red-400",
+      onClick: () => {
+        signOut({ redirectUrl: "/" });
+        setOpenPopup(false);
+      },
+    },
+  ];
+
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const { isSignedIn } = useUser();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const cartQuantity = useSelector(
     (state: RootState) => state.cart.totalQuantity,
   );
+  const { signOut } = useClerk();
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white relative">
       <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center  gap-12  xl:gap-24  bg-white ">
         <Link href={"/home"} className="">
           <Image
@@ -68,9 +92,14 @@ const Header = () => {
               </span>
             </Link>
             {isSignedIn ? (
-              <button className="cursor-pointer flex rounded-full p-2 bg-gold">
+              <button
+                onClick={() => {
+                  setOpenPopup((val) => !val);
+                  console.log(openPopup);
+                }}
+                className="cursor-pointer flex rounded-full p-2 bg-gold"
+              >
                 <User className="text-dark-green" />
-                
               </button>
             ) : (
               <Link
@@ -85,7 +114,9 @@ const Header = () => {
         </div>
         <button
           className="lg:hidden md:pr-4 "
-          onClick={() => setOpenMenu((open) => !open)}
+          onClick={() => {
+            setOpenMenu((open) => !open);
+          }}
         >
           {openMenu ? <X size={32} /> : <Menu className="size-8" />}
         </button>
@@ -139,6 +170,21 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {openPopup && (
+        <div className=" absolute z-40  mt-2 top-full right-4 flex flex-col bg-white text-gray-500 text-sm p-8 gap-4">
+          {manageAccount.map((item) => (
+            <button
+              key={item.title}
+              type="button"
+              onClick={item.onClick}
+              className={clsx(" flex gap-2 items-center", item.className)}
+            >
+              <item.icon className="size-4" />
+              <span>{item.title}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
