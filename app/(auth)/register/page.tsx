@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useAuth, useSignUp } from "@clerk/nextjs";
 import { Eye, EyeClosed, X } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 
 interface UserInputState {
   emailAddress: string;
@@ -30,6 +30,18 @@ const Page = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { signUp, errors, fetchStatus } = useSignUp();
 
+  const handleGoogleSignUp = async () => {
+    const { error } = await signUp.sso({
+      strategy: "oauth_google",
+      redirectCallbackUrl: "/home",
+      redirectUrl: "/home",
+    });
+
+    if (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  };
+
   console.log("status:", signUp.status);
   console.log("unverifiedFields:", signUp.unverifiedFields);
   console.log("missingFields:", signUp.missingFields);
@@ -38,7 +50,8 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { emailAddress, password, phoneNumber, firstName, lastName } = userInput;
+    const { emailAddress, password, phoneNumber, firstName, lastName } =
+      userInput;
 
     if (!emailAddress || !password || !phoneNumber || !firstName || !lastName) {
       return;
@@ -306,9 +319,9 @@ const Page = () => {
                     maxLength={10}
                   />
                 </div>
-                {errors.fields.emailAddress && (
+                {errors.fields.phoneNumber && (
                   <p className="text-xs text-red-500 py-2">
-                    {errors.fields.emailAddress.message}
+                    {errors.fields.phoneNumber.message}
                   </p>
                 )}
               </div>
@@ -351,7 +364,7 @@ const Page = () => {
                   </p>
                 )}
               </div>
-              <div id="clerk-captcha" />
+              <div id="clerk-captcha" className="z-80 inset-0 m-auto" />
 
               <button
                 disabled={
@@ -372,7 +385,11 @@ const Page = () => {
               <div className="border-gray-200 border-t h-0 w-1/2" />
             </div>
             <div className=" flex flex-col gap-3">
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              <button
+                type="button"
+                onClick={handleGoogleSignUp}
+                className="bg-bright-green/10 p-2 rounded-sm"
+              >
                 Sign up with Google
               </button>
               <button className="bg-bright-green/10 p-2 rounded-sm">

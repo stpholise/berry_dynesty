@@ -27,7 +27,7 @@ const Header = () => {
       icon: LogOut,
       className: "text-red-400",
       onClick: () => {
-        signOut({ redirectUrl: "/" });
+        signOut({ redirectUrl: "/home" });
         setOpenPopup(false);
       },
     },

@@ -1,17 +1,13 @@
-
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { auth } from "@clerk/nextjs/server";  
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
- 
-
 
 const ProtectedLayout = async ({ children }: { children: React.ReactNode }) => {
-
   const { userId } = await auth();
-  if(!userId) {
-    redirect("/signin")
+  if (!userId) {
+    redirect("/login");
   }
 
   return (

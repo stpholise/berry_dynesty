@@ -14,6 +14,7 @@ import {
 import clsx from "clsx";
 import LivestockCard from "../../_components/LivestockCard";
 import type { Product } from "@/types/product";
+import { GoogleOneTap } from "@clerk/nextjs";
 
 type SourcingStep = {
   id: number;
@@ -37,6 +38,7 @@ export interface LivestockProduct {
 const page = () => {
   return (
     <div className="bg-white relative">
+      <GoogleOneTap />
       <div className=" relative  w-full h-[calc(100vh-50px)] bg-[url(/bg/cow.jpg)] bg-center bg-cover ">
         <div className="absolute z-10 inset-0 bg-linear-to-r from-black to-transparent" />
         <div className=" flex justify-center flex-col gap-8 sm:gap-12 absolute z-20 inset-0 max-w-6xl my-auto py-20 mx-auto w-full px-4 sm:px-8">

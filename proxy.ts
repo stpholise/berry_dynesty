@@ -1,12 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-  "/accounts(.*)",
-  "/transactions(.*)",
-]);
+import { clerkMiddleware } from "@clerk/nextjs/server";
+ 
 
 export default clerkMiddleware(async (auth, request: NextRequest) => {
   const { pathname } = request.nextUrl;
@@ -15,10 +10,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     return NextResponse.rewrite(new URL("/home", request.url));
   }
 
-  if (isProtectedRoute(request)) {
-    await auth.protect();
-  }
-
+   
   return NextResponse.next();
 });
 
