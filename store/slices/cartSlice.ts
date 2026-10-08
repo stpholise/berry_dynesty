@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/types/sanity";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartItem {
@@ -40,7 +40,7 @@ const cartSlice = createSlice({
       if (quantity <= 0) return;
 
       const existingitem = state.items.find(
-        (item) => item.product.id === product.id,
+        (item) => item.product._id === product._id,
       );
 
       if (existingitem) {
@@ -60,10 +60,10 @@ const cartSlice = createSlice({
 
     removeFromCart: (state, action: PayloadAction<string>) => {
       const productId = action.payload;
-      const removed = state.items.find((item) => item.product.id === productId);
+      const removed = state.items.find((item) => item.product._id === productId);
       if (!removed) return;
 
-      state.items = state.items.filter((item) => item.product.id !== productId);
+      state.items = state.items.filter((item) => item.product._id !== productId);
       state.totalQuantity -= removed.quantity;
       state.totalPrice -= removed.product.price * removed.quantity;
     },
@@ -73,7 +73,7 @@ const cartSlice = createSlice({
       action: PayloadAction<{ productId: string; amount?: number }>,
     ) => {
       const { productId, amount = 1 } = action.payload;
-      const item = state.items.find((i) => i.product.id === productId);
+      const item = state.items.find((i) => i.product._id === productId);
 
       if (!item) return;
 
@@ -86,14 +86,14 @@ const cartSlice = createSlice({
       action: PayloadAction<{ productId: string; amount?: number }>,
     ) => {
       const { productId, amount = 1 } = action.payload;
-      const item = state.items.find((i) => i.product.id === productId);
+      const item = state.items.find((i) => i.product._id === productId);
 
       if (!item) return;
 
       item.quantity -= amount;
 
       if (item.quantity <= 0) {
-        state.items = state.items.filter((i) => i.product.id !== productId);
+        state.items = state.items.filter((i) => i.product._id !== productId);
       }
       recalcTotals(state);
     },
@@ -103,12 +103,12 @@ const cartSlice = createSlice({
       action: PayloadAction<{ productId: string; quantity: number }>,
     ) => {
       const { productId, quantity } = action.payload;
-      const item = state.items.find((i) => i.product.id === productId);
+      const item = state.items.find((i) => i.product._id === productId);
 
       if (!item) return;
 
       if (quantity <= 0) {
-        state.items = state.items.filter((i) => i.product.id !== productId);
+        state.items = state.items.filter((i) => i.product._id !== productId);
       } else {
         item.quantity = quantity;
       }

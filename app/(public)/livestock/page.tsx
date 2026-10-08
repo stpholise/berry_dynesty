@@ -1,7 +1,9 @@
-"use client";
+
 import { ArrowRight, Filter, ListFilter } from "lucide-react";
-import LivestockCard from "@/app/_components/LivestockCard";
-import { livestockProducts } from "../home/page";
+ 
+import Livestocks from "@/app/_components/Livestocks";
+
+
 const page = () => {
   return (
     <div className="flex flex-col gap-14 bg-gray-100 py-20">
@@ -123,11 +125,7 @@ const page = () => {
               <ListFilter />
             </button>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {livestockProducts.map((product, i) => (
-              <LivestockCard product={product} key={i} />
-            ))}
-          </div>
+           <Livestocks />
         </div>
       </div>
     </div>
