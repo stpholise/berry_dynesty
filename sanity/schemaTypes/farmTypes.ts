@@ -1,6 +1,6 @@
 import { Tractor } from "lucide-react";
 
-import {  defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const farmType = defineType({
   name: "farm",
@@ -17,11 +17,13 @@ export const farmType = defineType({
           name: "name",
           title: "Farm Name",
           type: "string",
+          validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: "location",
           title: "Location",
           type: "string",
+          validation: (Rule) => Rule.required(),
         }),
         defineField({
           name: "description",

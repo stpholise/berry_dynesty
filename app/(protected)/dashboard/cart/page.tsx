@@ -1,5 +1,5 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store"; 
 import Image from "next/image";
 import { Minus, Plus } from "lucide-react";

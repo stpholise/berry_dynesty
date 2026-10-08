@@ -1,15 +1,17 @@
 import { FolderOpen } from "lucide-react";
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const productType = defineType({
   name: "product",
   title: "Livestock",
   type: "document",
+  icon: FolderOpen,
   fields: [
     defineField({
       name: "name",
       title: "Animal Name",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
@@ -18,12 +20,14 @@ export const productType = defineType({
       options: {
         source: "name",
       },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "category",
       title: "Category",
       type: "reference",
       to: [{ type: "category" }],
+      validation: (Rule) => Rule.required(),
     }),
 
     defineField({
@@ -85,10 +89,10 @@ export const productType = defineType({
       initialValue: true,
     }),
     defineField({
-        name: "farm",
-        title: "Farm",
-        type: "reference",
-        to: [{type: "farm"}]
-    })
+      name: "farm",
+      title: "Farm",
+      type: "reference",
+      to: [{ type: "farm" }],
+    }),
   ],
 });
