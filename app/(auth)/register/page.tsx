@@ -30,15 +30,24 @@ const Page = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { signUp, errors, fetchStatus } = useSignUp();
 
-  console.log("status:", signUp.status);
-  console.log("unverifiedFields:", signUp.unverifiedFields);
-  console.log("missingFields:", signUp.missingFields);
+  const handleGoogleSignUp = async () => {
+    const { error } = await signUp.sso({
+      strategy: "oauth_google",
+      redirectCallbackUrl: "/home",
+      redirectUrl: "/home",
+    });
+
+    if (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  };
 
   const { isSignedIn } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { emailAddress, password, phoneNumber, firstName, lastName } = userInput;
+    const { emailAddress, password, phoneNumber, firstName, lastName } =
+      userInput;
 
     if (!emailAddress || !password || !phoneNumber || !firstName || !lastName) {
       return;
@@ -88,18 +97,9 @@ const Page = () => {
       code,
     });
 
-    console.log("verification error:", error);
-    console.log("signup status:", signUp.status);
-
     if (error) {
       console.error(JSON.stringify(error, null, 2));
     }
-
-    console.log("signup after verification:", signUp);
-    console.log("STATUS:", signUp.status);
-    console.log("UNVERIFIED:", signUp.unverifiedFields);
-    console.log("MISSING:", signUp.missingFields);
-    console.log("SIGNUP:", signUp);
 
     if (signUp.status === "complete") {
       await signUp.finalize({
@@ -306,9 +306,9 @@ const Page = () => {
                     maxLength={10}
                   />
                 </div>
-                {errors.fields.emailAddress && (
+                {errors.fields.phoneNumber && (
                   <p className="text-xs text-red-500 py-2">
-                    {errors.fields.emailAddress.message}
+                    {errors.fields.phoneNumber.message}
                   </p>
                 )}
               </div>
@@ -351,7 +351,7 @@ const Page = () => {
                   </p>
                 )}
               </div>
-              <div id="clerk-captcha" />
+              <div id="clerk-captcha" className="z-80 inset-0 m-auto" />
 
               <button
                 disabled={
@@ -372,12 +372,16 @@ const Page = () => {
               <div className="border-gray-200 border-t h-0 w-1/2" />
             </div>
             <div className=" flex flex-col gap-3">
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              <button
+                type="button"
+                onClick={handleGoogleSignUp}
+                className="bg-bright-green/10 p-2 rounded-sm"
+              >
                 Sign up with Google
               </button>
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              {/* <button className="bg-bright-green/10 p-2 rounded-sm">
                 Sign up with Facebook
-              </button>
+              </button> */}
             </div>
 
             <p className=" text-sm">

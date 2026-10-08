@@ -2,18 +2,70 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { SignIn } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs";
+// import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
+import { useRouter } from "next/navigation";
+import { Eye, EyeClosed } from "lucide-react";
+interface UserInputState {
+  emailAddress: string;
+  password: string;
+}
 
 const Page = () => {
-  const [error, setError] = useState<string>();
+  const { signIn, errors, fetchStatus } = useSignIn();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const router = useRouter();
+  const [userInput, setUserInput] = useState<UserInputState>({
+    emailAddress: "",
+    password: "",
+  });
+
+  const handleGoogleSignIn = async () => {
+    const { error } = await signIn.sso({
+      strategy: "oauth_google",
+      redirectCallbackUrl: "/home",
+      redirectUrl: "/home",
+    });
+
+    if (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await fetch("/api/login", {
-      method: "POST",
-      body: new FormData(e.currentTarget),
+
+    const { emailAddress, password } = userInput;
+
+    const { error: createError } = await signIn.create({
+      identifier: emailAddress,
+      password,
     });
-    if (!res.ok) return;
+
+    if (createError) {
+      console.error(JSON.stringify(createError, null, 2));
+      return;
+    }
+
+    if (signIn.status === "complete") {
+      await signIn.finalize({
+        navigate: ({ session, decorateUrl }) => {
+          if (session?.currentTask) {
+            console.log("Pending task:", session.currentTask);
+            return;
+          }
+
+          const url = decorateUrl("/home");
+
+          if (url.startsWith("http")) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        },
+      });
+    }
   };
 
   return (
@@ -30,29 +82,70 @@ const Page = () => {
               Sign in to start buy your farm animal
             </p>
 
-            <div className="flex flex-col gap-3 text-gray-700">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-3 text-gray-700"
+            >
               <div className="">
                 <label htmlFor="" className="py-1 block text-base font-medium ">
                   Email
                 </label>
                 <input
-                  type="text"
-                  name=""
-                  id=""
+                  onChange={(e) =>
+                    setUserInput((prev) => ({
+                      ...prev,
+                      emailAddress: e.target.value,
+                    }))
+                  }
+                  value={userInput.emailAddress}
+                  type="email"
+                  name="emailAddress"
+                  id="emailAddress"
                   className="p-2 bg-gray-200/50 w-full rounded-md outline-none"
                 />
+                {errors.fields.identifier && (
+                  <p className="text-xs text-red-500 py-2">
+                    {errors.fields.identifier.message}
+                  </p>
+                )}
               </div>
               <div className="">
                 <label htmlFor="" className="py-1 block text-base font-medium ">
                   Password
                 </label>
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  className="p-2 bg-gray-200/50 w-full rounded-md outline-none"
-                />
+                <div className="relative">
+                  <input
+                    onChange={(e) =>
+                      setUserInput((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
+                    value={userInput.password}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    className="p-2 bg-gray-200/50 w-full rounded-md outline-none"
+                  />
+                  <button
+                    onClick={() => setShowPassword((value) => !value)}
+                    type="button"
+                    className="absolute z-20 top-2 right-2 w-6"
+                  >
+                    {showPassword ? (
+                      <Eye className="text-birght-green size-5" />
+                    ) : (
+                      <EyeClosed className="text-birght-green size-5" />
+                    )}
+                  </button>
+                </div>
+                {errors.fields.password && (
+                  <p className="text-xs text-red-500 py-2">
+                    {errors.fields.password.message}
+                  </p>
+                )}
               </div>
+              <div id="clerk-captcha" className="z-80 inset-0 m-auto" />
 
               <button
                 type="button"
@@ -66,7 +159,7 @@ const Page = () => {
               >
                 Sign in
               </button>
-            </div>
+            </form>
 
             <div className="flex gap-2 items-center">
               {" "}
@@ -75,12 +168,16 @@ const Page = () => {
               <div className="border-gray-200 border-t h-0 w-1/2" />
             </div>
             <div className=" flex flex-col gap-3">
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                className="bg-bright-green/10 p-2 rounded-sm"
+              >
                 Sign in with Google
               </button>
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              {/* <button className="bg-bright-green/10 p-2 rounded-sm">
                 Sign in with Facebook
-              </button>
+              </button> */}
             </div>
 
             <p className=" text-sm">
