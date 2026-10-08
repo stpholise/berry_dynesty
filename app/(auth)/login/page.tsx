@@ -20,7 +20,18 @@ const Page = () => {
     emailAddress: "",
     password: "",
   });
-  // const [error, setError] = useState<string>();
+
+  const handleGoogleSignIn = async () => {
+    const { error } = await signIn.sso({
+      strategy: "oauth_google",
+      redirectCallbackUrl: "/home",
+      redirectUrl: "/home",
+    });
+
+    if (error) {
+      console.error(JSON.stringify(error, null, 2));
+    }
+  };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -157,12 +168,16 @@ const Page = () => {
               <div className="border-gray-200 border-t h-0 w-1/2" />
             </div>
             <div className=" flex flex-col gap-3">
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                className="bg-bright-green/10 p-2 rounded-sm"
+              >
                 Sign in with Google
               </button>
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              {/* <button className="bg-bright-green/10 p-2 rounded-sm">
                 Sign in with Facebook
-              </button>
+              </button> */}
             </div>
 
             <p className=" text-sm">

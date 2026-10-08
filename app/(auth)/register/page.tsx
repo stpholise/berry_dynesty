@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useAuth, useSignUp } from "@clerk/nextjs";
 import { Eye, EyeClosed, X } from "lucide-react";
 import { useState } from "react";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface UserInputState {
   emailAddress: string;
@@ -41,10 +41,6 @@ const Page = () => {
       console.error(JSON.stringify(error, null, 2));
     }
   };
-
-  console.log("status:", signUp.status);
-  console.log("unverifiedFields:", signUp.unverifiedFields);
-  console.log("missingFields:", signUp.missingFields);
 
   const { isSignedIn } = useAuth();
 
@@ -101,18 +97,9 @@ const Page = () => {
       code,
     });
 
-    console.log("verification error:", error);
-    console.log("signup status:", signUp.status);
-
     if (error) {
       console.error(JSON.stringify(error, null, 2));
     }
-
-    console.log("signup after verification:", signUp);
-    console.log("STATUS:", signUp.status);
-    console.log("UNVERIFIED:", signUp.unverifiedFields);
-    console.log("MISSING:", signUp.missingFields);
-    console.log("SIGNUP:", signUp);
 
     if (signUp.status === "complete") {
       await signUp.finalize({
@@ -392,9 +379,9 @@ const Page = () => {
               >
                 Sign up with Google
               </button>
-              <button className="bg-bright-green/10 p-2 rounded-sm">
+              {/* <button className="bg-bright-green/10 p-2 rounded-sm">
                 Sign up with Facebook
-              </button>
+              </button> */}
             </div>
 
             <p className=" text-sm">
