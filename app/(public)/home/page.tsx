@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Leaf, Heart, Sprout, Users, Badge } from "lucide-react";
 import PryButton from "../../_components/buttons/PryButton";
 import { ArrowRight, Play } from "@animateicons/react/lucide";
@@ -12,6 +13,7 @@ import {
 } from "@animateicons/react/lucide";
 import clsx from "clsx";
 import LivestockCard from "../../_components/LivestockCard";
+import type { Product } from "@/types/product";
 
 type SourcingStep = {
   id: number;
@@ -143,30 +145,34 @@ const page = () => {
             </button>
           </div>
           <div className="grid grid-cols-1 2xs:grid-cols-2  md:grid-cols-4 justify-center  sm:justify-between gap-4 sm:gap-16">
-            {livestockCategories.map((items, i) => (
-              <div
+            {livestockCategories.map((category, i) => (
+              <Link
+                href={{
+                  pathname: `/livestock`,
+                  query: { category: category.name },
+                }}
                 className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center"
                 key={i}
               >
                 <div
                   className={clsx(
                     " rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-out ",
-                    items.bg,
+                    category.bg,
                   )}
                 >
                   <Image
-                    src={items.icon}
+                    src={category.icon}
                     width={40}
                     height={40}
-                    alt={items.name}
+                    alt={category.name}
                     className="size-10"
                   />
                 </div>
                 <h6 className="text-black text-base font-semibold">
-                  {items.name}
+                  {category.label}
                 </h6>
-                <p className="text-sm text-gray-600">{items.subtitle}</p>
-              </div>
+                <p className="text-sm text-gray-600">{category.subtitle}</p>
+              </Link>
             ))}
           </div>
         </div>
@@ -458,69 +464,85 @@ const livestockCategories = [
   {
     id: 1,
     icon: "/icons/cow.svg",
-    name: "Cattle",
+    name: "cattle",
     subtitle: "Bulls, Heifers, Dairy",
     bg: "bg-green-100/60 group-hover:bg-green-200/60",
+    label: "Cattle",
   },
   {
     id: 2,
     icon: "/icons/ram.svg",
-    name: "Goats & Sheep",
+    name: "goat",
     subtitle: "Boer, Dorper, Kiko",
     bg: "bg-amber-200/60 group-hover:bg-amber-300/70",
+    label: "Goats & Sheep",
   },
   {
     id: 3,
     icon: "/icons/pig.svg",
-    name: "Swine / Pigs",
+    name: "pig",
     subtitle: "Duroc, Yorkshire, Landrace",
     bg: "bg-pink-200/60 group-hover:bg-pink-300/80",
+    label: "Swine / Pigs",
   },
   {
     id: 4,
     icon: "/icons/egg.svg",
-    name: "Poultry",
+    name: "poultry",
     subtitle: "Layers, Broilers, Turkeys",
     bg: "bg-orange-600/60 group-hover:bg-orange-600/80",
+    label: "Poultry",
   },
 ];
 
-export const livestockProducts: LivestockProduct[] = [
+export const livestockProducts: Product[] = [
   {
-    id: 1,
+    id: "1",
     name: "Fullblood Boer Goat Buck",
-    category: "Goats",
+    category: "Goat",
+    breed: "goat",
     image: "/animals/goat.jpg",
     location: "Red River Valley, OK",
     weight: "185 lbs",
     age: "14 Months",
     price: 680,
-    currency: "$",
+    description: "test",
+    gender: "Male",
+    inStock: true,
+    featured: false,
   },
   {
-    id: 2,
+    id: "2",
     name: "Dairy Cow",
     category: "Cattle",
+    breed: "",
     image: "/animals/cow.jpg",
     location: "Berry Dynasty Farm",
     weight: "1,100 lbs",
     age: "24 Months",
     price: 1850,
-    currency: "$",
+    description: "test",
+    gender: "Male",
+    inStock: true,
+    featured: false,
   },
   {
-    id: 3,
+    id: "3",
     name: "Large White Pig",
-    category: "Pigs",
+    category: "Pig",
     image: "/animals/pig.jpg",
     location: "Berry Dynasty Farm",
     weight: "220 lbs",
     age: "10 Months",
     price: 750,
-    currency: "$",
+    breed: "",
+    description: "test",
+    gender: "Male",
+    inStock: true,
+    featured: false,
   },
   {
-    id: 4,
+    id: "4",
     name: "Dorper Sheep",
     category: "Sheep",
     image: "/animals/sheep.jpg",
@@ -528,10 +550,14 @@ export const livestockProducts: LivestockProduct[] = [
     weight: "145 lbs",
     age: "12 Months",
     price: 520,
-    currency: "$",
+    breed: "",
+    description: "test",
+    gender: "Male",
+    inStock: true,
+    featured: false,
   },
   {
-    id: 5,
+    id: "5",
     name: "Turkey",
     category: "Poultry",
     image: "/animals/turkey.jpg",
@@ -539,7 +565,11 @@ export const livestockProducts: LivestockProduct[] = [
     weight: "28 lbs",
     age: "7 Months",
     price: 180,
-    currency: "$",
+    breed: "",
+    description: "test",
+    gender: "Male",
+    inStock: true,
+    featured: false,
   },
 ];
 

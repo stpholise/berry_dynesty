@@ -2,24 +2,58 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { X, Menu, UserCircle,  } from "lucide-react";
+import { X, Menu, UserCircle, Settings, LogOut } from "lucide-react";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
-import { HeartIcon, ShoppingCart } from "@animateicons/react/lucide";
+import { HeartIcon, ShoppingCart, User } from "@animateicons/react/lucide";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
+import { useUser, useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
+  const manageAccount = [
+    {
+      title: "Settings",
+      icon: Settings,
+      onClick: () => {
+        router.push("/profile");
+        setOpenPopup(false);
+      },
+    },
+    {
+      title: "Sign out",
+      icon: LogOut,
+      className: "text-red-400",
+      onClick: () => {
+        signOut({ redirectUrl: "/" });
+        setOpenPopup(false);
+      },
+    },
+  ];
+
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const { isSignedIn } = useUser();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const cartQuantity = useSelector(
+    (state: RootState) => state.cart.totalQuantity,
+  );
+  const { signOut } = useClerk();
+
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white relative">
       <div className="max-w-7xl px-8 py-2 text-black flex justify-between items-center  gap-12  xl:gap-24  bg-white ">
-        <Link href={"home"} className="">
+        <Link href={"/home"} className="">
           <Image
             src={"/logo_flex.png"}
             width={220}
             height={100}
-            alt="logo"
-            className=" lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
+            alt="company logo"
+            loading="eager"
+            priority
+            className="w-auto h-auto lg:h-16 xl:h-20 xl:w-44  lg:min-w-30"
           />
         </Link>
         <div className={"lg:flex hidden items-center justify-between gap-24 "}>
@@ -43,30 +77,46 @@ const Header = () => {
 
           <div className=" w-full flex items-center justify-end gap-8 ">
             <Link
-              href={"/login"}
+              href={"/dashboard/favorite"}
               className="text-bright-green flex items-center text-lg cursor-pointer"
             >
-              < HeartIcon   />
+              <HeartIcon />
             </Link>
             <Link
-              href={"/login"}
-              className="text-bright-green flex items-center text-lg cursor-pointer"
+              href={"/dashboard/cart"}
+              className="relative text-bright-green flex items-center text-lg cursor-pointer"
             >
-              <ShoppingCart   />
+              <ShoppingCart />
+              <span className="text-[10px] text-black absolute -top-2 -right-1">
+                {cartQuantity}
+              </span>
             </Link>
-
-            <Link
-              href={"/register"}
-              className="bg-bright-green rounded-md font-medium text-base text-white py-3 px-4 cursor-pointer whitespace-nowrap flex gap-1 items-center"
-            >
-              <UserCircle className="size-4" />
-              Login/Account
-            </Link>
+            {isSignedIn ? (
+              <button
+                onClick={() => {
+                  setOpenPopup((val) => !val);
+                  console.log(openPopup);
+                }}
+                className="cursor-pointer flex rounded-full p-2 bg-gold"
+              >
+                <User className="text-dark-green" />
+              </button>
+            ) : (
+              <Link
+                href={"/register"}
+                className="bg-bright-green rounded-md font-medium text-base text-white py-3 px-4 cursor-pointer whitespace-nowrap flex gap-1 items-center"
+              >
+                <UserCircle className="size-4" />
+                Login/Account
+              </Link>
+            )}
           </div>
         </div>
         <button
           className="lg:hidden md:pr-4 "
-          onClick={() => setOpenMenu((open) => !open)}
+          onClick={() => {
+            setOpenMenu((open) => !open);
+          }}
         >
           {openMenu ? <X size={32} /> : <Menu className="size-8" />}
         </button>
@@ -120,6 +170,21 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {openPopup && (
+        <div className=" absolute z-40  mt-2 top-full right-4 flex flex-col bg-white text-gray-500 text-sm p-8 gap-4">
+          {manageAccount.map((item) => (
+            <button
+              key={item.title}
+              type="button"
+              onClick={item.onClick}
+              className={clsx(" flex gap-2 items-center", item.className)}
+            >
+              <item.icon className="size-4" />
+              <span>{item.title}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -131,7 +196,7 @@ const pages = [
   },
   {
     title: "Shop Livestock",
-    url: "/shop",
+    url: "/livestock",
   },
 
   {
