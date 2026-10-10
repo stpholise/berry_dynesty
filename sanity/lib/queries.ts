@@ -56,15 +56,41 @@ export const PRODUCT_QUERY = defineQuery(`
   }
 `);
 
+export const FEATURED_PRODUCTS_QUERY = defineQuery(`
+  *[
+    _type == "product" &&
+   featured == true
+  ][0...4]{
+    _id,
+    name,
+    slug,
+    breed,
+    description,
+    price,
+    weight,
+    age,
+    location,
+    available,
+    "category": category->{
+      _id,
+      name,
+      slug
+    },
+    "image":image.asset->url,
+    gallery
+  }
+`);
+
 export const CATEGORIES_QUERY = defineQuery(`
   *[
     _type == "category"
   ]{
     _id,
     name,
+    title,
     slug,
     description,
-    image
+    "image": image.asset->url,
   }
 `);
 
@@ -82,7 +108,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = defineQuery(`
     age,
     location,
     available,
-    image,
+     "image": image.asset->url,
     "category": category->{
       name,
       slug
