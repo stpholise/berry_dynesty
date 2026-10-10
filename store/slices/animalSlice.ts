@@ -13,7 +13,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 //  }
 
-import { Product as Animal } from "@/types/product";
+import { Product as Animal } from "@/types/sanity";
 
 export interface AnimalFilters {
   category: string | null;

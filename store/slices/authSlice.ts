@@ -1,4 +1,4 @@
-import { createSlice,  createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice,   } from "@reduxjs/toolkit";
 
 export interface User {
   id: string;
