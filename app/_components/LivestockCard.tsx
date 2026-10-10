@@ -10,13 +10,9 @@ import { addToCart } from "@/store/slices/cartSlice";
 import { toggleWishlist } from "@/store/slices/wishlistSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import clsx from "clsx"; 
+import clsx from "clsx";
 
-interface LivestockCardProps {
-  product: Product;
-}
-
-const LivestockCard = ({ product }: LivestockCardProps) => {
+const LivestockCard = ({ product }: { product: Product }) => {
   const dispatch = useDispatch();
   const handleAddToCart = () => {
     dispatch(addToCart({ product, quantity: 1 }));
@@ -31,7 +27,7 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
   const toggleState = wishlistItems.some((i) => i._id === product._id);
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white p-2 shadow-sm duration-300 transition-shadow hover:shadow-2xl">
+    <div className="overflow-hidden rounded-2xl bg-white p-2 shadow-sm duration-300 transition-shadow hover:shadow-2xl border-2">
       <Link href={`/livestock/${product.slug.current}`} className="block group">
         <div className="relative h-40 w-full overflow-hidden rounded-2xl">
           <Image

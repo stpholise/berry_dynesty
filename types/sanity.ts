@@ -36,6 +36,7 @@ export interface Category {
   slug: SanitySlug;
   description?: string;
   image?: SanityImage;
+  title:string
 }
 
 // --------------------------------------------------
@@ -72,7 +73,10 @@ export interface Product {
   image: string;
   gallery?: SanityImage[];
   available: boolean;
-  gender: string;
+  gender?: string;
+  fullyVaccinated?: boolean;
+  quarantinePassed?: boolean;
+  pedigreeRegistered?: boolean;
 }
 
 // --------------------------------------------------

@@ -1,20 +1,27 @@
-"use client";
+"use server";
 import Image from "next/image";
 import Link from "next/link";
-import { Leaf, Heart, Sprout, Users, Badge } from "lucide-react";
+import { Badge } from "lucide-react";
 import PryButton from "../../_components/buttons/PryButton";
-import { ArrowRight, Play } from "@animateicons/react/lucide";
+import clsx from "clsx";
+import { GoogleOneTap } from "@clerk/nextjs";
+import { Product } from "@/types/sanity";
+import { client } from "@/sanity/lib/client";
+import {
+  FEATURED_PRODUCTS_QUERY,
+  CATEGORIES_QUERY,
+} from "@/sanity/lib/queries";
+import LivestockCard from "@/app/_components/LivestockCard";
 import {
   Heart as HeartPulse,
   ShieldCheck,
   Truck,
   Wallet,
   Cat,
+  ArrowRight,
+  // Play,
 } from "@animateicons/react/lucide";
-import clsx from "clsx";
-import LivestockCard from "../../_components/LivestockCard";
-import type { Product } from "@/types/product";
-import { GoogleOneTap } from "@clerk/nextjs";
+import CustomRequestButton from "@/app/_components/buttons/CustomRequestButton";
 
 type SourcingStep = {
   id: number;
@@ -23,19 +30,22 @@ type SourcingStep = {
   description: string;
 };
 
-export interface LivestockProduct {
-  id: number;
+interface Category {
+  _id: string;
   name: string;
-  category: string;
+  slug: {
+    current: string;
+  };
+  description: string;
   image: string;
-  location: string;
-  weight: string;
-  age: string;
-  price: number;
-  currency: string;
+  title: string;
 }
 
-const page = () => {
+const page = async () => {
+  const products: Product[] = await client.fetch(FEATURED_PRODUCTS_QUERY);
+
+  const Categories: Category[] = await client.fetch(CATEGORIES_QUERY);
+
   return (
     <div className="bg-white relative">
       <GoogleOneTap />
@@ -58,14 +68,14 @@ const page = () => {
             </p>
           </div>
           <div className=" mt-3 sm:mt-8 flex 2xs:flex-row flex-col gap-6 sm:gap-4 sm:items-center ">
-            <PryButton text={"Explore Our Animals"} />
-            <button className="flex cursor-pointer items-center gap-2 font-medium">
+            {/* <PryButton text={"Explore Our Animals"} /> */}
+            {/* <Link href="/livestoc" className="flex cursor-pointer items-center gap-2 font-medium">
               <Play
                 duration={0.8}
                 className="size-8 backdrop-blur-2xl p-1 border-2 rounded-full flex items-center"
               />
-              Explore our Farm
-            </button>
+              Explore our Animals
+            </Link> */}
           </div>
         </div>
       </div>
@@ -99,7 +109,7 @@ const page = () => {
 
       <div className=" max-w-7xl mx-auto py-20 flex flex-col gap-16 px-4">
         <div className=" text-center  flex-col flex gap-3 max-w-2xl mx-auto ">
-          <h4 className="text-gold text-sm font-semibold">
+          <h4 className="text-gold text-sm font-semibold uppercase">
             The AgroSource Guarantee
           </h4>
           <h3 className="text-dark-green text-3xl font-semibold">
@@ -147,33 +157,34 @@ const page = () => {
             </button>
           </div>
           <div className="grid grid-cols-1 2xs:grid-cols-2  md:grid-cols-4 justify-center  sm:justify-between gap-4 sm:gap-16">
-            {livestockCategories.map((category, i) => (
+            {Categories.slice(0, 4).map((category, i) => (
               <Link
                 href={{
                   pathname: `/livestock`,
-                  query: { category: category.name },
+                  query: { category: category.slug.current },
                 }}
-                className="border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center"
+                className={clsx(
+                  "border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center",
+                  catBg[i].bg,
+                )}
                 key={i}
               >
                 <div
                   className={clsx(
-                    " rounded-full mx-auto size-16 flex items-center my-3 justify-center transition duration-300 ease-in-out ",
-                    category.bg,
+                    " rounded-full mx-auto  flex items-center my-3 justify-center transition duration-300 ease-in-out ",
                   )}
                 >
                   <Image
-                    src={category.icon}
-                    width={40}
-                    height={40}
-                    alt={category.name}
-                    className="size-10"
+                    src={category.image}
+                    width={180}
+                    height={180}
+                    alt={category.name || "category image"}
+                    className=" w-full bg-cover rounded-lg"
                   />
                 </div>
                 <h6 className="text-black text-base font-semibold">
-                  {category.label}
+                  {category.title}
                 </h6>
-                <p className="text-sm text-gray-600">{category.subtitle}</p>
               </Link>
             ))}
           </div>
@@ -190,126 +201,31 @@ const page = () => {
           </h3>
         </div>
         <div className="grid 2xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {livestockProducts.map((product, i) => (
-            <LivestockCard product={product} key={i} />
-          ))}
+          {products &&
+            products.map((product, i) => (
+              <LivestockCard product={product} key={i} />
+            ))}
         </div>
       </div>
 
       <div className="py-20 bg-dark-green px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12  items-center justify-between">
-          <div className="flex flex-col md:w-150  gap-4 max-w-3xl text-white">
+          <div className="flex flex-col md:w-150  gap-2 max-w-3xl text-white">
             <h6 className="text-sm font-semibold text-gold uppercase">
               Can&apos;t find a specific breend or quantity?
             </h6>
-            <h3 className="text-4xl font-semibold text-white capitalize">
+            <h3 className="text-3xl font-semibold text-white capitalize">
               We Sourced Custom Orders For Commerciaal & Private Farms
             </h3>
-            <p className="text-base mt-3">
+            <p className="text-sm mt-4">
               Tell us your exact required specifications (breed, weight, age,
               quantity, health certificates) and our sourcing team will find and
               vet them for you.
             </p>
           </div>
-          <button className="bg-bright-green h-fit w-fit px-4 py-2  rounded-md">
-            Submit Custom Request
-          </button>
+          <CustomRequestButton />
         </div>
       </div>
-
-      {/*    <div className="py-20 bg-green-suplight">
-        <div className="max-w-6xl mx-auto flex-col flex gap-16">
-          <div className=" text-center text-black px-4">
-            <h3 className="text-5xl font-medium mb-4">Our Farm Animals</h3>
-            <p className="">
-              Learn about the different animals we raise and the important role
-              they play in sustainable farming
-            </p>
-          </div>
-
-          <div className=" grid grid-cols-1 2xs:grid-cols-2 px-4 md:grid-cols-3 gap-4 md:gap-8">
-            {farmAnimals.map((animal, i) => (
-              <div
-                className="w-full rounded-2xl shadow-sm bg-gray-100 overflow-hidden"
-                key={i}
-              >
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={animal.image}
-                    width={200}
-                    height={120}
-                    alt={animal.name}
-                    className={"cover w-full h-64 object-cover"}
-                  />
-                </div>
-                <div className=" p-4 md:p-6">
-                  <h3 className="text-2xl font-semibold text-green-950">
-                    {animal.name}
-                  </h3>
-
-                  <p className="mt-3 text-gray-600">{animal.description}</p>
- 
-                  <div className="mt-5">
-                    <p className="font-medium text-gray-900">Products:</p>
-
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {animal.products.map((product) => (
-                        <span
-                          key={product}
-                          className="rounded-full bg-green-50 px-3 py-1 text-sm text-green-800"
-                        >
-                          {product}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
- 
-                  <div className="mt-5 border-t pt-4">
-                    <p className="text-sm text-gray-500">Average Lifespan</p>
-
-                    <p className="mt-1 font-medium text-gray-900">
-                      {animal.lifespan}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div> */}
-
-      {/* <div className="py-20 px-8 max-w-6xl mx-auto text-black flex-col flex gap-16">
-        <div className=" text-center">
-          <h3 className="text-5xl font-medium mb-4">
-            why choose <span className="  ">Berry Dynasty</span>
-          </h3>
-          <p className="">
-            We&apos;re committed to sustainable farming practices and the
-            wellbeing of our animals.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-4  gap-8">
-          {farmingValues.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <div
-                key={item.title}
-                className="flex flex-col  items-center gap-4 rounded-lg text-center bg-green-suplight py-8 px-4 "
-              >
-                <Icon
-                  size={32}
-                  className="size-14 p-3 rounded-full text-bright-green bg-green-light"
-                />
-
-                <h3 className="text-xl font-dm-sans">{item.title}</h3>
-
-                <p>{item.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div> */}
     </div>
   );
 };
@@ -370,33 +286,6 @@ const page = () => {
 //     lifespan: "3-5 years",
 //   },
 // ];
-
-export const farmingValues = [
-  {
-    title: "Sustainable Farming",
-    description:
-      "We practice environmentally responsible farming methods that protect our land for future generations.",
-    icon: Leaf,
-  },
-  {
-    title: "Animal Welfare",
-    description:
-      "Our animals are treated with care and respect, ensuring their health and happiness.",
-    icon: Heart,
-  },
-  {
-    title: "Organic Practices",
-    description:
-      "We use natural methods and avoid harmful chemicals in our farming operations.",
-    icon: Sprout,
-  },
-  {
-    title: "Community Focus",
-    description:
-      "We support local communities and provide educational opportunities about sustainable agriculture.",
-    icon: Users,
-  },
-];
 
 const features = [
   {
@@ -462,117 +351,97 @@ const sourcingSteps: SourcingStep[] = [
   },
 ];
 
-const livestockCategories = [
+const catBg = [
   {
-    id: 1,
-    icon: "/icons/cow.svg",
-    name: "cattle",
-    subtitle: "Bulls, Heifers, Dairy",
     bg: "bg-green-100/60 group-hover:bg-green-200/60",
-    label: "Cattle",
   },
   {
-    id: 2,
-    icon: "/icons/ram.svg",
-    name: "goat",
-    subtitle: "Boer, Dorper, Kiko",
     bg: "bg-amber-200/60 group-hover:bg-amber-300/70",
-    label: "Goats & Sheep",
   },
   {
-    id: 3,
-    icon: "/icons/pig.svg",
-    name: "pig",
-    subtitle: "Duroc, Yorkshire, Landrace",
     bg: "bg-pink-200/60 group-hover:bg-pink-300/80",
-    label: "Swine / Pigs",
   },
   {
-    id: 4,
-    icon: "/icons/egg.svg",
-    name: "poultry",
-    subtitle: "Layers, Broilers, Turkeys",
     bg: "bg-orange-600/60 group-hover:bg-orange-600/80",
-    label: "Poultry",
   },
 ];
 
-export const livestockProducts: Product[] = [
-  {
-    id: "1",
-    name: "Fullblood Boer Goat Buck",
-    category: "Goat",
-    breed: "goat",
-    image: "/animals/goat.jpg",
-    location: "Red River Valley, OK",
-    weight: "185 lbs",
-    age: "14 Months",
-    price: 680,
-    description: "test",
-    gender: "Male",
-    inStock: true,
-    featured: false,
-  },
-  {
-    id: "2",
-    name: "Dairy Cow",
-    category: "Cattle",
-    breed: "",
-    image: "/animals/cow.jpg",
-    location: "Berry Dynasty Farm",
-    weight: "1,100 lbs",
-    age: "24 Months",
-    price: 1850,
-    description: "test",
-    gender: "Male",
-    inStock: true,
-    featured: false,
-  },
-  {
-    id: "3",
-    name: "Large White Pig",
-    category: "Pig",
-    image: "/animals/pig.jpg",
-    location: "Berry Dynasty Farm",
-    weight: "220 lbs",
-    age: "10 Months",
-    price: 750,
-    breed: "",
-    description: "test",
-    gender: "Male",
-    inStock: true,
-    featured: false,
-  },
-  {
-    id: "4",
-    name: "Dorper Sheep",
-    category: "Sheep",
-    image: "/animals/sheep.jpg",
-    location: "Berry Dynasty Farm",
-    weight: "145 lbs",
-    age: "12 Months",
-    price: 520,
-    breed: "",
-    description: "test",
-    gender: "Male",
-    inStock: true,
-    featured: false,
-  },
-  {
-    id: "5",
-    name: "Turkey",
-    category: "Poultry",
-    image: "/animals/turkey.jpg",
-    location: "Berry Dynasty Farm",
-    weight: "28 lbs",
-    age: "7 Months",
-    price: 180,
-    breed: "",
-    description: "test",
-    gender: "Male",
-    inStock: true,
-    featured: false,
-  },
-];
+// export const livestockProducts: Product[] = [
+//   {
+//     id: "1",
+//     name: "Fullblood Boer Goat Buck",
+//     category: "Goat",
+//     breed: "goat",
+//     image: "/animals/goat.jpg",
+//     location: "Red River Valley, OK",
+//     weight: "185 lbs",
+//     age: "14 Months",
+//     price: 680,
+//     description: "test",
+//     gender: "Male",
+//     inStock: true,
+//     featured: false,
+//   },
+//   {
+//     id: "2",
+//     name: "Dairy Cow",
+//     category: "Cattle",
+//     breed: "",
+//     image: "/animals/cow.jpg",
+//     location: "Berry Dynasty Farm",
+//     weight: "1,100 lbs",
+//     age: "24 Months",
+//     price: 1850,
+//     description: "test",
+//     gender: "Male",
+//     inStock: true,
+//     featured: false,
+//   },
+//   {
+//     id: "3",
+//     name: "Large White Pig",
+//     category: "Pig",
+//     image: "/animals/pig.jpg",
+//     location: "Berry Dynasty Farm",
+//     weight: "220 lbs",
+//     age: "10 Months",
+//     price: 750,
+//     breed: "",
+//     description: "test",
+//     gender: "Male",
+//     inStock: true,
+//     featured: false,
+//   },
+//   {
+//     id: "4",
+//     name: "Dorper Sheep",
+//     category: "Sheep",
+//     image: "/animals/sheep.jpg",
+//     location: "Berry Dynasty Farm",
+//     weight: "145 lbs",
+//     age: "12 Months",
+//     price: 520,
+//     breed: "",
+//     description: "test",
+//     gender: "Male",
+//     inStock: true,
+//     featured: false,
+//   },
+//   {
+//     id: "5",
+//     name: "Turkey",
+//     category: "Poultry",
+//     image: "/animals/turkey.jpg",
+//     location: "Berry Dynasty Farm",
+//     weight: "28 lbs",
+//     age: "7 Months",
+//     price: 180,
+//     breed: "",
+//     description: "test",
+//     gender: "Male",
+//     inStock: true,
+//     featured: false,
+//   },
+// ];
 
 export default page;

@@ -40,9 +40,9 @@ const Page = () => {
                       alt={item.product.name}
                     />
                     <div className=" flex flex-col justify-center ">
-                      <h5 className="text-xs text-bright-green font-bold">
-                        {item.product.category?.slug.current}
-                      </h5>
+                       <h5 className="text-xs text-bright-green font-bold">
+                        {item.product.category?.slug?.current}
+                      </h5> 
                       <h4 className="text-2xl font-semibold text-dark-green">
                         {item.product.name}
                       </h4>

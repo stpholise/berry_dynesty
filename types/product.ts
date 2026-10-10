@@ -1,32 +1,4 @@
-export type ProductCategory =
-  | "Cattle"
-  | "Goat"
-  | "Sheep"
-  | "Pig"
-  | "Poultry"
-  | "Turkey"
-  | "Duck"
-  | "Snail";
-
-export type ProductGender = "Male" | "Female";
-
-export interface Product {
-  id: string;
-  name: string;
-  category: ProductCategory;
-  breed: string;
-  description: string;
-  price: number;
-  image: string;
-  location: string;
-  age: string;
-  weight: string;
-  gender: ProductGender;
-  inStock: boolean;
-  featured: boolean;
-}
-
-
+import { SanitySlug, Farm, Category } from "./sanity";
 export interface ProductCard {
   _id: string;
   name: string;
@@ -38,4 +10,44 @@ export interface ProductCard {
   available?: boolean;
   category?: string;
   imageUrl?: string;
+}
+
+export interface ProductFilters {
+  keyword: string;
+  category: string;
+  maxPrice: number;
+  fullyVaccinated: boolean;
+  quarantinePassed: boolean;
+  pedigreeRegistered: boolean;
+}
+
+export const DEFAULT_PRODUCT_FILTERS: ProductFilters = {
+  keyword: "",
+  category: "",
+  maxPrice: 5000,
+  fullyVaccinated: false,
+  quarantinePassed: false,
+  pedigreeRegistered: false,
+};
+
+ 
+
+export interface FilterableProduct {
+  _id: string;
+  _type: "product";
+  name: string;
+  slug: SanitySlug;
+  farm?: Farm;
+  age?: number;
+  location?: string;
+  image: string;
+  gender?: string;
+  available: boolean;
+  breed?: string;
+  description?: string;
+  price: number;
+  category?: Category;
+  fullyVaccinated?: boolean;
+  quarantinePassed?: boolean;
+  pedigreeRegistered?: boolean;
 }
