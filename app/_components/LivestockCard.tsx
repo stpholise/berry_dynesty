@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "@animateicons/react/lucide";
 import { Heart, ShoppingBag } from "lucide-react";
-import type { Product } from "@/types/product";
+import type { Product } from "@/types/sanity";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/slices/cartSlice";
 import { toggleWishlist } from "@/store/slices/wishlistSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import clsx from "clsx";
+import clsx from "clsx"; 
 
 interface LivestockCardProps {
   product: Product;
@@ -28,14 +28,14 @@ const LivestockCard = ({ product }: LivestockCardProps) => {
 
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
 
-  const toggleState = wishlistItems.some((i) => i.id === product.id);
+  const toggleState = wishlistItems.some((i) => i._id === product._id);
 
   return (
     <div className="overflow-hidden rounded-2xl bg-white p-2 shadow-sm duration-300 transition-shadow hover:shadow-2xl">
-      <Link href={`/livestock/${product.id}`} className="block group">
+      <Link href={`/livestock/${product.slug.current}`} className="block group">
         <div className="relative h-40 w-full overflow-hidden rounded-2xl">
           <Image
-            src={product.image}
+            src={product.image || "/globe.svg"}
             alt={product.name}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

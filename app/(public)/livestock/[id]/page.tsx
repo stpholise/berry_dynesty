@@ -16,11 +16,11 @@ const Page = () => {
   const pathname = usePathname();
   const slug = pathname.split("/")[2];
 
-  const animal = products.find((i) => i.id === slug);
+  const animal = products.find((i) => i._id === slug);
 
   const favorites = useSelector((state: RootState) => state.wishlist.items);
 
-  const checkFavorites = favorites.some((i) => i.id === slug);
+  const checkFavorites = favorites.some((i) => i._id === slug);
 
   const toggleFavorite = () => {
     if (!animal) return;

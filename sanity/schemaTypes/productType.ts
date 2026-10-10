@@ -29,6 +29,28 @@ export const productType = defineType({
       to: [{ type: "category" }],
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "gender",
+      title: "Gender",
+      type: "string",
+      options: {
+        list: [
+          { title: "Male", value: "m" },
+          { title: "Female", value: "f" },
+        ],
+        layout: "radio",
+      },
+    }),
+    defineField({
+      name: "instock",
+      title: "In Stock",
+      type: "boolean",
+    }),
+    defineField({
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+    }),
 
     defineField({
       name: "breed",
@@ -68,6 +90,7 @@ export const productType = defineType({
       options: {
         hotspot: true,
       },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "gallery",

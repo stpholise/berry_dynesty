@@ -25,3 +25,17 @@ export interface Product {
   inStock: boolean;
   featured: boolean;
 }
+
+
+export interface ProductCard {
+  _id: string;
+  name: string;
+  slug: string;
+  breed?: string;
+  price?: number;
+  weight?: number;
+  age?: number;
+  available?: boolean;
+  category?: string;
+  imageUrl?: string;
+}
