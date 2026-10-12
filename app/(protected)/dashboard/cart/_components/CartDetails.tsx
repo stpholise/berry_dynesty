@@ -1,11 +1,14 @@
+"use client";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import type { Product } from "@/types/sanity";
 
-const CartDetails = () => {
+const CartDetails = ({ products }: { products: Product[] }) => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const livestockTotal = useSelector(
     (state: RootState) => state.cart.totalPrice,
   );
+  console.log(products);
   return (
     <div className="rounded-2xl flex flex-col gap-5 p-6 border-2 border-gray-200 bg-white h-fit">
       <h2 className="text-2xl text-dark-green font-semibold">Order Summary</h2>

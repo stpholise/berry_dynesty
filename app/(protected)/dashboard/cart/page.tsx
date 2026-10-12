@@ -17,7 +17,7 @@ import { Suspense } from "react";
           <Suspense
             fallback={
               <div className="flex justify-center py-12">
-                <LoaderIcon />
+                <LoaderIcon duration={4} className="animate-spin"/>
                 <span className="ml-2">Loading your cart...</span>
               </div>
             }
