@@ -18,7 +18,7 @@ export async function saveCartItem(
 }
 
 
-export async function fetchCartItems({userId}: { userId: string}){
+export async function fetchCartItems(){
   const res = await fetch("/api/cart")
   if (res.status === 401) throw new Error("Unauthorized");
 
