@@ -25,6 +25,7 @@
     "next-sanity": "^13.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "react-hot-toast": "^2.6.1",
     "react-redux": "^9.3.0",
     "redux-persist": "^6.0.0",
     "sanity": "^5.31.2",

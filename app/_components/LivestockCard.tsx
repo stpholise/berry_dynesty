@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useState } from "react";
 import clsx from "clsx";
+import toast from "react-hot-toast";
 
 const LivestockCard = ({ product }: { product: Product }) => {
   const [addingToCart, setAddingToCart] = useState<boolean>(false);
@@ -24,9 +25,10 @@ const LivestockCard = ({ product }: { product: Product }) => {
       dispatch(addToCart({ product, quantity: 1 }));
       await saveCartItem(product._id, 1);
       setAddingToCart(false);
+      toast.success("item added to cart successfuly!");
     } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
+      if (err instanceof Error) { 
+        toast.error(err.message);
       }
     } finally {
       setAddingToCart(false);
@@ -49,6 +51,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
             src={product.image || "/globe.svg"}
             alt={product.name}
             fill
+            loading="lazy"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
@@ -75,8 +78,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
           </div>
         </div>
       </Link>
-
-      {/* Card Action Footer (Kept outside <Link> to fix hydration errors) */}
+ 
       <div className="flex items-end justify-between gap-4 p-4 pt-0">
         <p className="text-lg font-bold text-dark-green">
           $ {product.price.toLocaleString()}

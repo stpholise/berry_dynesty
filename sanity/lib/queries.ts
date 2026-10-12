@@ -55,6 +55,30 @@ export const PRODUCT_QUERY = defineQuery(`
     gallery
   }
 `);
+export const PRODUCT_BY_ID_QUERY = defineQuery(`
+  *[
+    _type == "product" &&
+    _id in $ids
+  ]{
+    _id,
+    name,
+    slug,
+    breed,
+    description,
+    price,
+    weight,
+    age,
+    location,
+    available,
+    "category": category->{
+      _id,
+      name,
+      slug
+    },
+    "image": image.asset->url,
+    gallery
+  }
+`);
 
 export const FEATURED_PRODUCTS_QUERY = defineQuery(`
   *[

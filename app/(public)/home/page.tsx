@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { GoogleOneTap } from "@clerk/nextjs";
 import { Product } from "@/types/sanity";
 import { client } from "@/sanity/lib/client";
+import { ErrorBoundary } from "@/app/_components/ErrorBoundary";
 import {
   FEATURED_PRODUCTS_QUERY,
   CATEGORIES_QUERY,
