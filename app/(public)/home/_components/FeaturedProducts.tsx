@@ -10,7 +10,11 @@ const FeaturedProducts = async () => {
     <div className="grid 2xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       {products &&
         products.map((product, i) => (
-          <LivestockCard product={product} key={i} />
+          <LivestockCard
+            product={product}
+            key={product._id}
+            data-aos={i % 2 == 0 ? "fade-left" : "fade-right"}
+          />
         ))}
     </div>
   );
