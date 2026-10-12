@@ -5,6 +5,7 @@ import { createStore, AppStore } from "@/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore, Persistor } from "redux-persist";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "react-hot-toast";
 
 const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [store] = useState<AppStore>(() => createStore());
@@ -15,6 +16,7 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           {children}
+          <Toaster />
         </PersistGate>
       </Provider>
     </ClerkProvider>

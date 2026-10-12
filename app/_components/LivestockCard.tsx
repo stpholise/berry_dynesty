@@ -1,4 +1,6 @@
 "use client";
+import { saveCartItem } from "@/lib/dbActions";
+import { LoaderIcon } from "@animateicons/react/lucide";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,12 +12,27 @@ import { addToCart } from "@/store/slices/cartSlice";
 import { toggleWishlist } from "@/store/slices/wishlistSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { useState } from "react";
 import clsx from "clsx";
+import toast from "react-hot-toast";
 
 const LivestockCard = ({ product }: { product: Product }) => {
+  const [addingToCart, setAddingToCart] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const handleAddToCart = () => {
-    dispatch(addToCart({ product, quantity: 1 }));
+  const handleAddToCart = async () => {
+    setAddingToCart(true);
+    try {
+      dispatch(addToCart({ product, quantity: 1 }));
+      await saveCartItem(product._id, 1);
+      setAddingToCart(false);
+      toast.success("item added to cart successfuly!");
+    } catch (err) {
+      if (err instanceof Error) { 
+        toast.error(err.message);
+      }
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
   const handleToggleWishlist = () => {
@@ -34,6 +51,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
             src={product.image || "/globe.svg"}
             alt={product.name}
             fill
+            loading="lazy"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </div>
@@ -60,8 +78,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
           </div>
         </div>
       </Link>
-
-      {/* Card Action Footer (Kept outside <Link> to fix hydration errors) */}
+ 
       <div className="flex items-end justify-between gap-4 p-4 pt-0">
         <p className="text-lg font-bold text-dark-green">
           $ {product.price.toLocaleString()}
@@ -83,7 +100,18 @@ const LivestockCard = ({ product }: { product: Product }) => {
             onClick={handleAddToCart}
             className="flex cursor-pointer items-center gap-2 rounded-md bg-bright-green py-2 px-3 text-sm font-semibold text-white transition hover:bg-gray-300"
           >
-            <ShoppingBag className="size-4" /> Add
+            {addingToCart ? (
+              <LoaderIcon
+                size={32}
+                duration={4}
+                color="#ffffff"
+                className="animate spin infinit"
+              />
+            ) : (
+              <div className="flex items-center whitespace-nowrap gap-2">
+                <ShoppingBag className="size-4" /> Add
+              </div>
+            )}
           </button>
         </div>
       </div>
