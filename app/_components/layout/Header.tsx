@@ -154,9 +154,27 @@ const Header = () => {
                   {page.title}
                 </Link>
               ))}
-
+              <div className=" flex flex-col  gap-4 my-4">
+                <Link
+                  href={"/dashboard/favorite"}
+                  className="text-red-400 flex gap-2 items-center text-lg cursor-pointer"
+                >
+                  <HeartIcon />
+                  <span className="text-white">Wishlist</span>
+                </Link>
+                <Link
+                  href={"/dashboard/cart"}
+                  className="relative text-blue-200 flex gap-2 items-center text-lg cursor-pointer"
+                >
+                  <ShoppingCart />
+                  <span className="text-white">Cart</span>
+                  <span className="text-[10px] text-black absolute -top-2 -right-1">
+                    {cartQuantity}
+                  </span>
+                </Link>
+              </div>
               {isSignedIn ? (
-                <div className="flex flex-col gap-4 mt-4">
+                <div className="flex flex-col gap-4 mt-auto">
                   {manageAccount.map((item) => (
                     <button
                       key={item.title}
