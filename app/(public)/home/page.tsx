@@ -1,17 +1,7 @@
 "use server";
-import Image from "next/image";
-import Link from "next/link";
-import { Badge } from "lucide-react"; 
-import clsx from "clsx";
+import { Badge } from "lucide-react";
 import { GoogleOneTap } from "@clerk/nextjs";
-import { Product } from "@/types/sanity";
-import { client } from "@/sanity/lib/client";
-
-import {
-  FEATURED_PRODUCTS_QUERY,
-  CATEGORIES_QUERY,
-} from "@/sanity/lib/queries";
-import LivestockCard from "@/app/_components/LivestockCard";
+import Categories from "./_components/Categories";
 import {
   Heart as HeartPulse,
   ShieldCheck,
@@ -19,9 +9,13 @@ import {
   Wallet,
   Cat,
   ArrowRight,
+  EllipsisIcon,
   // Play,
 } from "@animateicons/react/lucide";
 import CustomRequestButton from "@/app/_components/buttons/CustomRequestButton";
+import ErrorWrapper from "@/app/_components/ErrorHanling/custom-error-boundry";
+import FeaturedProducts from "./_components/FeaturedProducts";
+import { Suspense } from "react";
 
 type SourcingStep = {
   id: number;
@@ -30,22 +24,7 @@ type SourcingStep = {
   description: string;
 };
 
-interface Category {
-  _id: string;
-  name: string;
-  slug: {
-    current: string;
-  };
-  description: string;
-  image: string;
-  title: string;
-}
-
 const page = async () => {
-  const products: Product[] = await client.fetch(FEATURED_PRODUCTS_QUERY);
-
-  const Categories: Category[] = await client.fetch(CATEGORIES_QUERY);
-
   return (
     <div className="bg-white relative">
       <GoogleOneTap />
@@ -67,16 +46,7 @@ const page = async () => {
               quality, sustainability, and responsible farming at heart.
             </p>
           </div>
-          <div className=" mt-3 sm:mt-8 flex 2xs:flex-row flex-col gap-6 sm:gap-4 sm:items-center ">
-            {/* <PryButton text={"Explore Our Animals"} /> */}
-            {/* <Link href="/livestoc" className="flex cursor-pointer items-center gap-2 font-medium">
-              <Play
-                duration={0.8}
-                className="size-8 backdrop-blur-2xl p-1 border-2 rounded-full flex items-center"
-              />
-              Explore our Animals
-            </Link> */}
-          </div>
+          <div className=" mt-3 sm:mt-8 flex 2xs:flex-row flex-col gap-6 sm:gap-4 sm:items-center "></div>
         </div>
       </div>
 
@@ -156,38 +126,18 @@ const page = async () => {
               <ArrowRight size={16} className="size-3" />{" "}
             </button>
           </div>
-          <div className="grid grid-cols-1 2xs:grid-cols-2  md:grid-cols-4 justify-center  sm:justify-between gap-4 sm:gap-16">
-            {Categories.slice(0, 4).map((category, i) => (
-              <Link
-                href={{
-                  pathname: `/livestock`,
-                  query: { category: category.slug.current },
-                }}
-                className={clsx(
-                  "border-2  hover:border-bright-green/50 transition duration-300 ease-in-ou group rounded-2xl bg-white p-4 flex flex-col gap-1 items-center",
-                  catBg[i].bg,
-                )}
-                key={i}
-              >
-                <div
-                  className={clsx(
-                    " rounded-full mx-auto  flex items-center my-3 justify-center transition duration-300 ease-in-out ",
-                  )}
-                >
-                  <Image
-                    src={category.image}
-                    width={180}
-                    height={180}
-                    alt={category.name || "category image"}
-                    className=" w-full bg-cover rounded-lg"
-                  />
-                </div>
-                <h6 className="text-black text-base font-semibold">
-                  {category.title}
-                </h6>
-              </Link>
-            ))}
-          </div>
+          <Suspense
+            fallback={
+              <div className="flex justify-center py-12">
+                <EllipsisIcon duration={4} className="animate-spin" />
+                <span className="ml-2">Loading Categories...</span>
+              </div>
+            }
+          >
+            <ErrorWrapper title={"Error Fetching Categories"}>
+              <Categories />
+            </ErrorWrapper>
+          </Suspense>
         </div>
       </div>
 
@@ -200,12 +150,18 @@ const page = async () => {
             Featured Sourced Animals
           </h3>
         </div>
-        <div className="grid 2xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {products &&
-            products.map((product, i) => (
-              <LivestockCard product={product} key={i} />
-            ))}
-        </div>
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-12">
+              <span className="ml-2">Loading Featured Products</span>
+              <EllipsisIcon duration={4} className="animate-spin" />
+            </div>
+          }
+        >
+          <ErrorWrapper title={"Error fetching Featured Products"}>
+            <FeaturedProducts />
+          </ErrorWrapper>
+        </Suspense>
       </div>
 
       <div className="py-20 bg-dark-green px-4">
@@ -350,98 +306,5 @@ const sourcingSteps: SourcingStep[] = [
       "Shipped in specialized livestock trailers directly to your farm gate with arrival health logs.",
   },
 ];
-
-const catBg = [
-  {
-    bg: "bg-green-100/60 group-hover:bg-green-200/60",
-  },
-  {
-    bg: "bg-amber-200/60 group-hover:bg-amber-300/70",
-  },
-  {
-    bg: "bg-pink-200/60 group-hover:bg-pink-300/80",
-  },
-  {
-    bg: "bg-orange-600/60 group-hover:bg-orange-600/80",
-  },
-];
-
-// export const livestockProducts: Product[] = [
-//   {
-//     id: "1",
-//     name: "Fullblood Boer Goat Buck",
-//     category: "Goat",
-//     breed: "goat",
-//     image: "/animals/goat.jpg",
-//     location: "Red River Valley, OK",
-//     weight: "185 lbs",
-//     age: "14 Months",
-//     price: 680,
-//     description: "test",
-//     gender: "Male",
-//     inStock: true,
-//     featured: false,
-//   },
-//   {
-//     id: "2",
-//     name: "Dairy Cow",
-//     category: "Cattle",
-//     breed: "",
-//     image: "/animals/cow.jpg",
-//     location: "Berry Dynasty Farm",
-//     weight: "1,100 lbs",
-//     age: "24 Months",
-//     price: 1850,
-//     description: "test",
-//     gender: "Male",
-//     inStock: true,
-//     featured: false,
-//   },
-//   {
-//     id: "3",
-//     name: "Large White Pig",
-//     category: "Pig",
-//     image: "/animals/pig.jpg",
-//     location: "Berry Dynasty Farm",
-//     weight: "220 lbs",
-//     age: "10 Months",
-//     price: 750,
-//     breed: "",
-//     description: "test",
-//     gender: "Male",
-//     inStock: true,
-//     featured: false,
-//   },
-//   {
-//     id: "4",
-//     name: "Dorper Sheep",
-//     category: "Sheep",
-//     image: "/animals/sheep.jpg",
-//     location: "Berry Dynasty Farm",
-//     weight: "145 lbs",
-//     age: "12 Months",
-//     price: 520,
-//     breed: "",
-//     description: "test",
-//     gender: "Male",
-//     inStock: true,
-//     featured: false,
-//   },
-//   {
-//     id: "5",
-//     name: "Turkey",
-//     category: "Poultry",
-//     image: "/animals/turkey.jpg",
-//     location: "Berry Dynasty Farm",
-//     weight: "28 lbs",
-//     age: "7 Months",
-//     price: 180,
-//     breed: "",
-//     description: "test",
-//     gender: "Male",
-//     inStock: true,
-//     featured: false,
-//   },
-// ];
 
 export default page;

@@ -11,6 +11,8 @@ import CartDetails from "./CartDetails";
 const CartContent = async () => {
   const cartItemsId = await getCartItems();
 
+  
+
   if (!cartItemsId || cartItemsId.length === 0) {
     return (
       <div  >
