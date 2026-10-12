@@ -6,8 +6,9 @@ import {
 } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { Product, Category } from "@/types/sanity";
-
+import { EllipsisIcon } from "@animateicons/react/lucide";
 import { Suspense } from "react";
+import ErrorWrapper from "@/app/_components/ErrorHanling/custom-error-boundry";
 
 import LivestocListing from "@/app/(public)/livestock/_components/LivestockListing";
 
@@ -38,12 +39,21 @@ const page = async ({ searchParams }: { searchParams: SearchParams }) => {
         </p>
       </div>
 
-      <Suspense>
-        <LivestocListing
-          products={products}
-          categories={categories}
-          initialCategory={initialCategory}
-        />
+      <Suspense
+        fallback={
+          <div className="flex justify-center py-12">
+            <span className="ml-2">Loading Livestocks</span>
+            <EllipsisIcon duration={4} className="animate-spin" />
+          </div>
+        }
+      >
+        <ErrorWrapper title="Error fetching products">
+          <LivestocListing
+            products={products}
+            categories={categories}
+            initialCategory={initialCategory}
+          />
+        </ErrorWrapper>
       </Suspense>
     </div>
   );

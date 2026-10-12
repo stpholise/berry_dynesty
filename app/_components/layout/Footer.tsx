@@ -12,9 +12,9 @@ import {
 
 const Footer = () => {
   return (
-    <div className="pb-12 ">
-      <div className=" max-w-6xl mx-auto px-10  ">
-        <div className=" flex flex-col lg:flex-row  justify-between w-full px-1 gap-25 lg:gap-50 py-20  border-b-2 border-b-gray-500">
+    <div className=" ">
+      <div className=" max-w-6xl mx-auto  p-5 md:px-10  ">
+        <div className=" flex flex-col lg:flex-row  justify-between w-full px-1 gap-20 lg:gap-50 py-18  ">
           <div className="text-lg lg:w-120 font-medium font-dm-sans  ">
             <Image
               src={"/logo_flex.png"}
@@ -44,7 +44,7 @@ const Footer = () => {
               </div>
             ))}
 
-            <div className=" flex flex-col gap-4 items-start xl:w-60 ">
+            <div className=" flex flex-col gap-4 items-start  xl:w-60 ">
               <h4 className="mb-3 text-foreground font-medium font-dm-sans text-xl">
                 Contact us
               </h4>
@@ -64,7 +64,7 @@ const Footer = () => {
                   </Link>
                 );
               })}
-              <div className="flex gap-3 my-4">
+              <div className="flex gap-6 mt-14 sm:my-4 w-full justify-center sm:justify-start">
                 {socialMedia.map((item, i) => {
                   const Icon = item.icon;
                   return (
@@ -80,7 +80,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="py-6 flex justify-between">
+        {/* <div className="py-6 flex justify-between">
           <p className="text-xs text-gray-300">
             &copy; Made by <span className="text-primary">Olise Stephen</span> -
             Powered by <span className="text-primary">Nextjs</span>
@@ -89,7 +89,7 @@ const Footer = () => {
             <p className="">Impressum</p>
             <p className="">Datenschutz</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -106,12 +106,12 @@ const quickLinks = [
   },
   {
     name: "Our Animals",
-    url: "/animals",
+    url: "/livestock",
   },
-  {
-    name: "Support",
-    url: "/support",
-  },
+  // {
+  //   name: "Support",
+  //   url: "/support",
+  // },
   {
     name: "Contact",
     url: "/contact",
