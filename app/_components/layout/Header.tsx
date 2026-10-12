@@ -18,7 +18,7 @@ const Header = () => {
       title: "Settings",
       icon: Settings,
       onClick: () => {
-        router.push("/profile");
+        router.push("/home");
         setOpenPopup(false);
       },
     },
@@ -154,18 +154,38 @@ const Header = () => {
                   {page.title}
                 </Link>
               ))}
-              <div className="flex flex-col justify-start items-start mt-10 gap-3 pt-4">
-                <Link href={"/login"} className="text-lg">
-                  Login
-                </Link>
 
-                <Link
-                  href={"/register"}
-                  className="bg-primary-light text-primary rounded-md font-medium  py-3 px-4"
-                >
-                  Sign up
-                </Link>
-              </div>
+              {isSignedIn ? (
+                <div className="flex flex-col gap-4 mt-4">
+                  {manageAccount.map((item) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={item.onClick}
+                      className={clsx(
+                        " flex gap-2 items-center",
+                        item.className,
+                      )}
+                    >
+                      <item.icon className="size-4" />
+                      <span>{item.title}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col justify-start items-start mt-10 gap-3 pt-4">
+                  <Link href={"/login"} className="text-lg">
+                    Login
+                  </Link>
+
+                  <Link
+                    href={"/register"}
+                    className="bg-primary-light text-primary rounded-md font-medium  py-3 px-4"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>{" "}
           </div>
         </div>

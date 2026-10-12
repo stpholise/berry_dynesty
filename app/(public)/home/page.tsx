@@ -1,8 +1,7 @@
 "use server";
 import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "lucide-react";
-import PryButton from "../../_components/buttons/PryButton";
+import { Badge } from "lucide-react"; 
 import clsx from "clsx";
 import { GoogleOneTap } from "@clerk/nextjs";
 import { Product } from "@/types/sanity";
