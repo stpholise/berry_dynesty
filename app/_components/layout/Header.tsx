@@ -18,7 +18,7 @@ const Header = () => {
       title: "Settings",
       icon: Settings,
       onClick: () => {
-        router.push("/profile");
+        router.push("/home");
         setOpenPopup(false);
       },
     },
@@ -154,18 +154,56 @@ const Header = () => {
                   {page.title}
                 </Link>
               ))}
-              <div className="flex flex-col justify-start items-start mt-10 gap-3 pt-4">
-                <Link href={"/login"} className="text-lg">
-                  Login
-                </Link>
-
+              <div className=" flex flex-col  gap-4 my-4">
                 <Link
-                  href={"/register"}
-                  className="bg-primary-light text-primary rounded-md font-medium  py-3 px-4"
+                  href={"/dashboard/favorite"}
+                  className="text-red-400 flex gap-2 items-center text-lg cursor-pointer"
                 >
-                  Sign up
+                  <HeartIcon />
+                  <span className="text-white">Wishlist</span>
+                </Link>
+                <Link
+                  href={"/dashboard/cart"}
+                  className="relative text-blue-200 flex gap-2 items-center text-lg cursor-pointer"
+                >
+                  <ShoppingCart />
+                  <span className="text-white">Cart</span>
+                  <span className="text-[10px] text-black absolute -top-2 -right-1">
+                    {cartQuantity}
+                  </span>
                 </Link>
               </div>
+              {isSignedIn ? (
+                <div className="flex flex-col gap-4 mt-auto">
+                  {manageAccount.map((item) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      onClick={item.onClick}
+                      className={clsx(
+                        " flex gap-2 items-center",
+                        item.className,
+                      )}
+                    >
+                      <item.icon className="size-4" />
+                      <span>{item.title}</span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-col justify-start items-start mt-10 gap-3 pt-4">
+                  <Link href={"/login"} className="text-lg">
+                    Login
+                  </Link>
+
+                  <Link
+                    href={"/register"}
+                    className="bg-primary-light text-primary rounded-md font-medium  py-3 px-4"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>{" "}
           </div>
         </div>
