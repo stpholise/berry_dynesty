@@ -22,6 +22,8 @@ export async function getCartItems() : Promise<CartItemRow[]>{
       WHERE user_id = ${userId}
     `;
 
+    
+
     return rows as CartItemRow[];
   } catch (error) {
     console.error("Database error fetching cart items:", error);
