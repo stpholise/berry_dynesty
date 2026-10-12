@@ -29,19 +29,27 @@ const page = () => {
 
       <div className="pb-20">
         <div className="max-w-xl mx-auto py-20 flex flex-col gap-4 px-4">
-          <h6 className="text-sm uppercase text-center text-bright-green font-semibold">quality Assurance</h6>
-          <h2 className="text-4xl text-center capitalize text-dark-green font-semibold">How We Source Our Animals</h2>
+          <h6 className="text-sm uppercase text-center text-bright-green font-semibold">
+            quality Assurance
+          </h6>
+          <h2 className="text-4xl text-center capitalize text-dark-green font-semibold">
+            How We Source Our Animals
+          </h2>
           <p className="text-lg text-gray-500 text-center">
             We cut out the middlemen and risky animal auctions by sourcing
             healthy, high-genetics livestock straight from verified breeding
             ranches.
           </p>
-        </div> 
+        </div>
         <div className="flex flex-col gap-8 p-4">
           {steps.map((step, i) => (
             <div
-              className={clsx(" rounded-md p-4 flex items-center gap-8 max-w-4xl mx-auto flex-col shadow-sm ",i % 2 ? "md:flex-row" : " md:flex-row-reverse")}
+              className={clsx(
+                " rounded-md p-4 flex items-center gap-8 max-w-4xl mx-auto flex-col shadow-sm ",
+                i % 2 ? "md:flex-row" : " md:flex-row-reverse",
+              )}
               key={i}
+              data-aos={i % 2 == 0 ? "fade-left" : "fade-right"}
             >
               <Image
                 src={step.image}
