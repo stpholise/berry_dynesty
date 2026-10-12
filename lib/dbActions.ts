@@ -18,4 +18,13 @@ export async function saveCartItem(
 }
 
 
-export async fundtion fetchCartItems({userId})
+export async function fetchCartItems({userId}: { userId: string}){
+  const res = await fetch("/api/cart")
+  if (res.status === 401) throw new Error("Unauthorized");
+
+  if(!res.ok) throw new Error("Failed to load cart")
+
+    const data = await res.json();
+    return data.items as { product_id: number; quantity: number }[];
+
+}
