@@ -1,4 +1,3 @@
-
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -8,10 +7,7 @@ export async function GET() {
   const { userId } = await auth();
 
   if (!userId) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const items = await sql`
@@ -28,10 +24,7 @@ export async function POST(request: Request) {
   const { userId } = await auth();
 
   if (!userId) {
-    return NextResponse.json(
-      { error: "Unauthorized" },
-      { status: 401 },
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body: unknown = await request.json();
@@ -64,4 +57,35 @@ export async function POST(request: Request) {
   `;
 
   return NextResponse.json({ item });
+}
+
+export async function DELETE(request: Request) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const body: unknown = await request.json();
+
+  if (
+    typeof body !== "object" ||
+    body === null ||
+    !("productId" in body) ||
+    typeof body.productId !== "string" ||
+    !body.productId.trim()
+  ) {
+    return NextResponse.json({ error: "Invalid product id." }, { status: 400 });
+  }
+
+  const [deleted] = await sql`
+  DELETE FROM cart_items
+  WHERE user_id = ${userId} AND product_id = ${body.productId}
+  RETURNING product_id, quantity
+  `;
+  if (!deleted) {
+    return NextResponse.json({ error: "Item not found." }, { status: 404 });
+  }
+  
+  
+  return NextResponse.json({ item: deleted });
 }

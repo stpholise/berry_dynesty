@@ -9,6 +9,7 @@ import type { Product } from "@/types/sanity";
 import CartDetails from "./CartDetails";
 
 const CartContent = async () => {
+
   const cartItemsId = await getCartItems();
 
   
@@ -36,6 +37,8 @@ const CartContent = async () => {
   const products: Product[] = await client.fetch(PRODUCT_BY_ID_QUERY, {
     ids: productIds,
   });
+
+  
    const findQuantityById = new Map(
     cartItemsId.map((item) => [item.product_id, item.quantity]),
   );

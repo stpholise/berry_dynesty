@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import type { Product } from "@/types/sanity";
 
 const CartDetails = ({ products }: { products: Product[] }) => {
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  // const cartItems = useSelector((state: RootState) => state.cart.items);
   const livestockTotal = useSelector(
     (state: RootState) => state.cart.totalPrice,
   );

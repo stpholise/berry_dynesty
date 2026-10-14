@@ -3,6 +3,11 @@ import Image from "next/image";
 import { Minus, Trash, Plus } from "lucide-react";
 import type { Product } from "@/types/sanity";
 import { urlFor } from "@/sanity/lib/image";
+import { deleteCartItem } from "@/lib/dbActions";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { LoaderIcon } from "@animateicons/react/lucide";
 
 interface CartItemProp {
   product: Product;
@@ -10,6 +15,24 @@ interface CartItemProp {
 }
 
 const CartItem = ({ product, quantity }: CartItemProp) => {
+  const router = useRouter();
+
+  const [pending, setPending] = useState(false);
+
+  const removeFromCart = async () => {
+    setPending(true);
+    try {
+      await deleteCartItem(product._id);
+      router.refresh();
+    } catch (e) {
+      if (e instanceof Error) {
+        toast.error(e.message);
+      }
+    } finally {
+      setPending(false);
+    }
+  };
+
   return (
     <div className="flex flex-col 2xs:flex-row justify-between items-center gap-4 md:gap-12 border border-gray-300 rounded-md p-2 w-full 2xs:h-38 sm:h-fit">
       <div className="flex items-center  xs:gap-3 md:w-42">
@@ -19,6 +42,7 @@ const CartItem = ({ product, quantity }: CartItemProp) => {
           height={220}
           className=" w-full 2xs:size-30 sm:size-38 min-w-20 rounded-lg object-cover"
           alt={product.name}
+          loading="lazy"
         />
       </div>
       <div className="w-full flex flex-col  gap-4  2xs:gap-2 md:gap-5 md:pr-8">
@@ -47,8 +71,12 @@ const CartItem = ({ product, quantity }: CartItemProp) => {
           <p className="text-xl hidden md:flex font-semibold text-black">
             ₦{product.price * quantity}
           </p>
-          <button type="button" className="">
-            <Trash className="size-5 md:size-6 text-red-500" />
+          <button onClick={removeFromCart} type="button" className="">
+            {pending ? (
+              <LoaderIcon duration={4} />
+            ) : (
+              <Trash className="size-5 md:size-6 text-red-500" />
+            )}
           </button>
         </div>
       </div>

@@ -75,7 +75,7 @@ export const PRODUCT_BY_ID_QUERY = defineQuery(`
       name,
       slug
     },
-    image,
+     image,
     gallery
   }
 `);
