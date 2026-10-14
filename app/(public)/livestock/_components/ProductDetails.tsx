@@ -39,6 +39,7 @@ const ProductDetails = ({ animal }: ProductDetailsProp) => {
           width={800}
           height={700}
           alt={animal?.breed || "animal breed "}
+          loading="lazy"
           className="w-full h-full max-h-140 cover"
         />
       </div>
@@ -91,14 +92,12 @@ const ProductDetails = ({ animal }: ProductDetailsProp) => {
               })}
             </span>
           </p>
-          {animal.gender &&
-          <p className=" font-semibold text-gray-500">
-            {" "}
-            sex:{" "}
-            <span className="text-black">
-              {animal.gender}
-            </span>
-          </p>}
+          {animal.gender && (
+            <p className=" font-semibold text-gray-500">
+              {" "}
+              sex: <span className="text-black">{animal.gender}</span>
+            </p>
+          )}
         </div>
         <div className="flex gap-4 mt-4">
           <button

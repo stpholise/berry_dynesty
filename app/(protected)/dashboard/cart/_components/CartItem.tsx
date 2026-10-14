@@ -19,6 +19,7 @@ const CartItem = ({ product, quantity }: CartItemProp) => {
           height={220}
           className=" w-full 2xs:size-30 sm:size-38 min-w-20 rounded-lg object-cover"
           alt={product.name}
+          loading="lazy"
         />
       </div>
       <div className="w-full flex flex-col  gap-4  2xs:gap-2 md:gap-5 md:pr-8">
