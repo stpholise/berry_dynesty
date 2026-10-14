@@ -9,6 +9,7 @@ import { addToCart } from "@/store/slices/cartSlice";
 import { RootState } from "@/store";
 import clsx from "clsx";
 import { Product } from "@/types/sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 interface ProductDetailsProp {
   animal: Product;
@@ -34,7 +35,7 @@ const ProductDetails = ({ animal }: ProductDetailsProp) => {
     <div className="rounded-3xl bg-white text-gray-500 max-w-7xl mx-auto min-h-[calc(100vh-80px)] grid grid-cols-2 gap-6 border-2 border-gray-200 shadow-sm">
       <div className="w-full h-full rounded-l-3xl overflow-hidden flex items-center ">
         <Image
-          src={animal.image}
+          src={urlFor(animal.image).url()}
           width={800}
           height={700}
           alt={animal?.breed || "animal breed "}

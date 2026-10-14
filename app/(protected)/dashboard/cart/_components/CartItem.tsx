@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Minus, Trash, Plus } from "lucide-react";
 import type { Product } from "@/types/sanity";
+import { urlFor } from "@/sanity/lib/image";
 
 interface CartItemProp {
   product: Product;
@@ -13,13 +14,12 @@ const CartItem = ({ product, quantity }: CartItemProp) => {
     <div className="flex flex-col 2xs:flex-row justify-between items-center gap-4 md:gap-12 border border-gray-300 rounded-md p-2 w-full 2xs:h-38 sm:h-fit">
       <div className="flex items-center  xs:gap-3 md:w-42">
         <Image
-          src={product.image}
+          src={urlFor(product.image).width(300).height(300).url()}
           width={280}
           height={220}
           className=" w-full 2xs:size-30 sm:size-38 min-w-20 rounded-lg object-cover"
           alt={product.name}
         />
-       
       </div>
       <div className="w-full flex flex-col  gap-4  2xs:gap-2 md:gap-5 md:pr-8">
         <div className="  flex-col justify-center flex  w-full ">

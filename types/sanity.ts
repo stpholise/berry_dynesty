@@ -4,7 +4,7 @@ export interface SanityImage {
   _type: "image";
   asset: {
     _ref: string;
-    _type: "reference";
+    _type: "reference"; 
   };
   hotspot?: {
     x: number;
@@ -70,7 +70,7 @@ export interface Product {
   weight?: number;
   age?: number;
   location?: string;
-  image: string;
+  image: SanityImage;
   gallery?: SanityImage[];
   available: boolean;
   gender?: string;

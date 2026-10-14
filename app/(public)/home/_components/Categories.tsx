@@ -3,6 +3,7 @@ import { CATEGORIES_QUERY } from "@/sanity/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
+import { urlFor } from "@/sanity/lib/image";
 
 interface Category {
   _id: string;
@@ -35,16 +36,19 @@ const Categories = async () => {
         >
           <div
             className={clsx(
-              " rounded-full mx-auto  flex items-center my-3 justify-center transition duration-300 ease-in-out ",
+              " rounded-full mx-auto relative flex items-center my-3 justify-center transition duration-300 ease-in-out ",
             )}
           >
-            <Image
-              src={category.image}
+          
+           {category.image ? <Image
+              src={urlFor(category.image).url()}
               width={180}
               height={180}
               alt={category.name || "category image"}
               className=" w-full bg-cover rounded-lg"
-            />
+              unoptimized
+            /> : <div  className=" w-full bg-cover rounded-lg bg-gray-400"
+              ></div> }
           </div>
           <h6 className="text-black text-base font-semibold">
             {category.title}

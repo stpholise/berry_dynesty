@@ -26,7 +26,7 @@ export const PRODUCTS_QUERY = defineQuery(`
       name,
       slug
     },
-    "image":image.asset->url,
+    image,
     gallery
   }
 `);
@@ -51,7 +51,7 @@ export const PRODUCT_QUERY = defineQuery(`
       name,
       slug
     },
-    "image": image.asset->url,
+    image,
     gallery
   }
 `);
@@ -75,7 +75,7 @@ export const PRODUCT_BY_ID_QUERY = defineQuery(`
       name,
       slug
     },
-    "image": image.asset->url,
+    image,
     gallery
   }
 `);
@@ -100,7 +100,7 @@ export const FEATURED_PRODUCTS_QUERY = defineQuery(`
       name,
       slug
     },
-    "image":image.asset->url,
+    image,
     gallery
   }
 `);
@@ -114,7 +114,7 @@ export const CATEGORIES_QUERY = defineQuery(`
     title,
     slug,
     description,
-    "image": image.asset->url,
+    image,
   }
 `);
 
@@ -132,7 +132,7 @@ export const PRODUCTS_BY_CATEGORY_QUERY = defineQuery(`
     age,
     location,
     available,
-     "image": image.asset->url,
+     image,
     "category": category->{
       name,
       slug

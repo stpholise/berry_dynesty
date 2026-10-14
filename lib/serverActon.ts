@@ -9,8 +9,10 @@ export interface CartItemRow {
 
 export async function getCartItems() : Promise<CartItemRow[]>{
   const { userId } = await auth();
+  console.log({userId})
 
   if (!userId) {
+    console.log('no user id')
     throw new Error("Unauthorized");
   }
 

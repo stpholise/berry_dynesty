@@ -1,8 +1,9 @@
 "use client";
-import { UseDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import Image from "next/image";
 import type { RootState } from "@/store";
 import { ShoppingCart } from "lucide-react";
+import { urlFor } from "@/sanity/lib/image";
 
 const Page = () => {
   const favoriteItems = useSelector((state: RootState) => state.wishlist.items);
@@ -22,7 +23,7 @@ const Page = () => {
                   key={i}
                 >
                   <Image
-                    src={favorite.image}
+                    src={urlFor(favorite.image).width(300).height(300).url()}
                     width={200}
                     height={200}
                     className="size-25 rounded-lg object-cover"

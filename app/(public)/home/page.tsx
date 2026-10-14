@@ -1,4 +1,4 @@
-"use server";
+ 
 import { Badge } from "lucide-react";
 import { GoogleOneTap } from "@clerk/nextjs";
 import Categories from "./_components/Categories";
