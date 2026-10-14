@@ -1,7 +1,7 @@
 "use client";
 import { saveCartItem } from "@/lib/dbActions";
 import { LoaderIcon } from "@animateicons/react/lucide";
-
+import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin } from "@animateicons/react/lucide";
@@ -27,7 +27,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
       setAddingToCart(false);
       toast.success("item added to cart successfuly!");
     } catch (err) {
-      if (err instanceof Error) { 
+      if (err instanceof Error) {
         toast.error(err.message);
       }
     } finally {
@@ -48,7 +48,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
       <Link href={`/livestock/${product.slug.current}`} className="block group">
         <div className="relative h-40 w-full overflow-hidden rounded-2xl">
           <Image
-            src={product.image || "/globe.svg"}
+            src={urlFor(product.image).width(600).url() || "/globe.svg"}
             alt={product.name}
             fill
             loading="lazy"
@@ -78,7 +78,7 @@ const LivestockCard = ({ product }: { product: Product }) => {
           </div>
         </div>
       </Link>
- 
+
       <div className="flex items-end justify-between gap-4 p-4 pt-0">
         <p className="text-lg font-bold text-dark-green">
           $ {product.price.toLocaleString()}

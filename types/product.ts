@@ -1,4 +1,4 @@
-import { SanitySlug, Farm, Category } from "./sanity";
+import { SanitySlug, SanityImage, Farm, Category } from "./sanity";
 export interface ProductCard {
   _id: string;
   name: string;
@@ -40,7 +40,7 @@ export interface FilterableProduct {
   farm?: Farm;
   age?: number;
   location?: string;
-  image: string;
+  image: SanityImage;
   gender?: string;
   available: boolean;
   breed?: string;

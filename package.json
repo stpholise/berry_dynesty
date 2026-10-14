@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^7.9.10",
     "@neondatabase/serverless": "^1.2.0",
     "@reduxjs/toolkit": "^2.13.0",
+    "@sanity-image/url-builder": "^1.2.0",
     "@sanity/icons": "^5.2.3",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.31.2",
